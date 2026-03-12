@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massages | Les Bains de l'Opéra</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style spécifique pour la page massages */
+        body {
+            background: url('images/hero.jpg') center/cover fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 210, 200, 0.75);
+            z-index: -1;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-buttons .btn {
+            background: #8B8B5E;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .massages-content {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 4rem;
+        }
+
+        /* Colonne gauche - Liste des massages */
+        .massage-list {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            border-radius: 8px;
+            align-self: start;
+        }
+
+        .massage-list h2 {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .massage-list p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .massage-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .massage-list li {
+            padding: 0.6rem 0;
+            color: #333;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .massage-list li::before {
+            display: none;
+        }
+
+        .massage-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-reserver-small {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .btn-reserver-small:hover {
+            background: #4A3A2A;
+            transform: translateY(-2px);
+        }
+
+        /* Colonne droite - Massages du monde */
+        .world-massages {
+            position: relative;
+        }
+
+        .world-massages-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .world-massages-header h2 {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .world-massages-header p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* Formes lanternes */
+        .lantern-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .lantern {
+            position: relative;
+            width: 400px;
+            min-height: 200px;
+            background: #E8A5A0;
+            border: 4px solid white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .lantern:hover {
+            transform: scale(1.03);
+        }
+
+        /* Forme de lanterne marocaine avec clip-path */
+        .lantern-oriental {
+            background: #E8A5A0;
+            color: #333;
+            clip-path: polygon(
+                50% 0%, 55% 5%, 60% 8%, 65% 10%, 70% 11%, 75% 12%, 80% 12%, 85% 11%, 90% 10%, 95% 8%, 100% 5%,
+                100% 50%,
+                95% 92%, 90% 90%, 85% 89%, 80% 88%, 75% 88%, 70% 89%, 65% 90%, 60% 92%, 55% 95%, 50% 100%, 45% 95%, 40% 92%, 35% 90%, 30% 89%, 25% 88%, 20% 88%, 15% 89%, 10% 90%, 5% 92%, 0% 95%,
+                0% 50%,
+                5% 8%, 10% 10%, 15% 11%, 20% 12%, 25% 12%, 30% 11%, 35% 10%, 40% 8%, 45% 5%
+            );
+        }
+
+        .lantern-hawaien {
+            background: #A5A5A5;
+            color: white;
+        }
+
+        .lantern-suedois {
+            background: #A8A870;
+            color: #333;
+        }
+
+        .lantern-pierres {
+            background: #E8D595;
+            color: #333;
+        }
+
+        .lantern-chinois {
+            background: #D49860;
+            color: #333;
+        }
+
+        .lantern h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .lantern p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+        }
+
+        .lantern .btn-reserver {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .lantern .btn-reserver:hover {
+            background: #4A3A2A;
+            transform: translateY(-2px);
+        }
+
+        /* Bandeau bas */
+        .bottom-banner {
+            background: rgba(200, 190, 180, 0.9);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .bottom-banner p {
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .massages-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .lantern {
+                width: 90%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="top-buttons">
+        <a href="infos.html" class="btn">BON CADEAU</a>
+        <a href="infos.html" class="btn">RÉSERVEZ</a>
+    </div>
+
+    <div class="massages-content">
+        <!-- Colonne gauche - Liste des massages -->
+        <div class="massage-list">
+            <h2>MASSAGES</h2>
+            <p>Massage de relaxation et de bien-être,<br>non thérapeutique et non médicalisé.</p>
+
+            <ul>
+                <li>
+                    <span>Massage Relaxant de 30 minutes / 55€</span>
+                    <a href="reservation.html?formule=MASSAGE_RELAXANT_30&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+                <li>
+                    <span>Massage Relaxant de 45 minutes / 70€</span>
+                    <a href="reservation.html?formule=MASSAGE_RELAXANT_45&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+                <li>
+                    <span>Massage Relaxant de 60 minutes / 80€</span>
+                    <a href="reservation.html?formule=MASSAGE_RELAXANT_60&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+                <li>
+                    <span>Massage Relaxant en Duo (60 min) / 170€</span>
+                    <a href="reservation.html?formule=MASSAGE_DUO&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+                <li>
+                    <span>Massage à 4 mains (75 min) / 200€</span>
+                    <a href="reservation.html?formule=MASSAGE_4_MAINS&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+                <li>
+                    <span>Massage Future Maman (60 min) / 95€</span>
+                    <a href="reservation.html?formule=MASSAGE_FUTURE_MAMAN&type=massage" class="btn-reserver-small">Réserver</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Colonne droite - Massages du monde -->
+        <div class="world-massages">
+            <div class="world-massages-header">
+                <h2>NOS MASSAGES DU MONDE</h2>
+                <p>60 minutes / 95 €</p>
+            </div>
+
+            <div class="lantern-container">
+                <div class="lantern lantern-oriental">
+                    <h3>MASSAGE ORIENTAL</h3>
+                    <p>Ce massage vigoureux aux Bains de l'Opéra a pour but de détendre les muscles, de faciliter l'évacuation des toxines, la décontraction et l'assouplissement des muscles.</p>
+                    <a href="reservation.html?formule=MASSAGE_ORIENTAL&type=massage" class="btn-reserver">Réserver - 95€</a>
+                </div>
+
+                <div class="lantern lantern-hawaien">
+                    <h3>MASSAGE HAWAÏEN<br>LOMI-LOMI</h3>
+                    <p>Ce massage énergétique est un réel moment d'évasion où vos sens du flux et reflux de l'Océan, réalisé dans la pure tradition hawaïenne avec de l'huile de Monoï. Il procure bien-être et apaisement.</p>
+                    <a href="reservation.html?formule=MASSAGE_HAWAIEN&type=massage" class="btn-reserver">Réserver - 95€</a>
+                </div>
+
+                <div class="lantern lantern-suedois">
+                    <h3>MASSAGE SUÉDOIS</h3>
+                    <p>Ce massage profond combine la douceur, les tensions corporelles en agissant sur l'ensemble des chaînes musculaires.</p>
+                    <p>Il dynamise le corps tout en l'apaisant de manière profond ou léger, il s'adapte à vos besoins et vos envies.</p>
+                    <a href="reservation.html?formule=MASSAGE_SUEDOIS&type=massage" class="btn-reserver">Réserver - 95€</a>
+                </div>
+
+                <div class="lantern lantern-pierres">
+                    <h3>MASSAGE PIERRES CHAUDES</h3>
+                    <p>Ce massage manuel et aux pierres volcaniques chaudes et lisses contribue à un apaisement musculaire et à un profond sentiment de calme intérieur.</p>
+                    <a href="reservation.html?formule=MASSAGE_PIERRES_CHAUDES&type=massage" class="btn-reserver">Réserver - 95€</a>
+                </div>
+
+                <div class="lantern lantern-chinois">
+                    <h3>MASSAGE CHINOIS</h3>
+                    <p>Les lissages profonds et lents ainsi que les pressions sur certains points, ce massage vient à harmoniser le corps et l'esprit, procurant ainsi un pur moment de bien-être.</p>
+                    <a href="reservation.html?formule=MASSAGE_CHINOIS&type=massage" class="btn-reserver">Réserver - 95€</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-banner">
+        <p>LES BAINS DE L'OPÉRA - 20 Rue Joseph Serlin  69001 LYON - RÉSERVATION PAR MAIL <a href="mailto:pre-reserver.ici" style="color: #5A4A3A;">PRE-RÉSERVER.ici</a></p>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="escales.html">Nos Escales</a>
+                <a href="massages.html">Massages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Tél : 04 XX XX XX XX</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

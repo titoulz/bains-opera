@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation | Les Bains de l'Opéra</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .reservation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .reservation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .reservation-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .reservation-header p {
+            font-size: 1.1rem;
+            color: var(--grey);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .formule-selection {
+            background: var(--beige);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .formule-selection h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .formule-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .formule-tab {
+            padding: 0.6rem 1.2rem;
+            background: var(--white);
+            border: 2px solid var(--primary-light);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .formule-tab.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .formule-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .formule-item {
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .formule-item:hover {
+            border-color: var(--primary-light);
+        }
+
+        .formule-item.selected {
+            border-color: var(--primary);
+            background: rgba(212, 145, 94, 0.1);
+        }
+
+        .formule-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .formule-item p {
+            font-size: 0.9rem;
+            color: var(--grey);
+            margin-bottom: 0.5rem;
+        }
+
+        .formule-item .price {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: var(--grey);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .formule-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="reservation-container">
+        <div class="reservation-header">
+            <h1>Réservation</h1>
+            <p>Réservez votre moment de détente aux Bains de l'Opéra</p>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <form id="reservation-form">
+            <div class="formule-selection">
+                <h3>Choisissez votre formule</h3>
+                <div class="formule-tabs">
+                    <div class="formule-tab active" data-type="escale">Nos Escales</div>
+                    <div class="formule-tab" data-type="escale_spa">Escales avec SPA</div>
+                    <div class="formule-tab" data-type="escale_enveloppement">Escales avec Enveloppement</div>
+                    <div class="formule-tab" data-type="hammam">Hammam</div>
+                    <div class="formule-tab" data-type="massage">Massages</div>
+                    <div class="formule-tab" data-type="soin">Soins</div>
+                </div>
+                <div class="formule-list" id="formule-list">
+                    <!-- Les formules seront chargées dynamiquement -->
+                </div>
+                <input type="hidden" id="formule-selected" name="formule" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nom">Nom <span class="required">*</span></label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom <span class="required">*</span></label>
+                    <input type="text" id="prenom" name="prenom" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone <span class="required">*</span></label>
+                    <input type="tel" id="telephone" name="telephone" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date souhaitée <span class="required">*</span></label>
+                    <input type="date" id="date" name="date_reservation" required>
+                </div>
+                <div class="form-group">
+                    <label for="heure">Heure souhaitée <span class="required">*</span></label>
+                    <input type="time" id="heure" name="heure_reservation" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre_personnes">Nombre de personnes</label>
+                <select id="nombre_personnes" name="nombre_personnes">
+                    <option value="1">1 personne</option>
+                    <option value="2">2 personnes</option>
+                    <option value="3">3 personnes</option>
+                    <option value="4">4 personnes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message (optionnel)</label>
+                <textarea id="message" name="message" placeholder="Informations complémentaires..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Réserver</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="nos-escales.html">Nos Escales</a>
+                <a href="massages.html">Massages</a>
+                <a href="soins.html">Soins Visage</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <a href="infos.html">Infos Pratiques</a>
+                <a href="tarifs.html">Tarifs</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>20 Rue Joseph Serlin<br>69001 Lyon</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let formules = [];
+        let selectedFormule = null;
+
+        // Charger les formules au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            setupDateRestrictions();
+
+            // Vérifier si une formule est passée en paramètre URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const formuleParam = urlParams.get('formule');
+            const typeParam = urlParams.get('type');
+
+            if (typeParam) {
+                // Activer l'onglet correspondant
+                document.querySelectorAll('.formule-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.type === typeParam) {
+                        tab.classList.add('active');
+                    }
+                });
+                loadFormules(typeParam, formuleParam);
+            } else {
+                loadFormules('escale', formuleParam);
+            }
+        });
+
+        // Gestion des onglets
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.formule-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    loadFormules(tab.dataset.type);
+                });
+            });
+        }
+
+        // Restrictions sur la date (jours fermés)
+        function setupDateRestrictions() {
+            const dateInput = document.getElementById('date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+
+            dateInput.addEventListener('change', (e) => {
+                const selectedDate = new Date(e.target.value);
+                const day = selectedDate.getDay();
+
+                // 0 = Dimanche, 1 = Lundi, 2 = Mardi (jours fermés)
+                if (day === 0 || day === 1 || day === 2) {
+                    showAlert('Nous sommes fermés du dimanche au mardi. Veuillez choisir une autre date.', 'error');
+                    dateInput.value = '';
+                }
+            });
+        }
+
+        // Charger les formules par type
+        async function loadFormules(type, preselectedFormule = null) {
+            try {
+                const response = await fetch(`${API_URL}/formules?type=${type}`);
+                formules = await response.json();
+                displayFormules(formules, preselectedFormule);
+            } catch (error) {
+                console.error('Erreur lors du chargement des formules:', error);
+                showAlert('Erreur lors du chargement des formules', 'error');
+            }
+        }
+
+        // Afficher les formules
+        function displayFormules(formules, preselectedFormule = null) {
+            const container = document.getElementById('formule-list');
+            container.innerHTML = '';
+
+            formules.forEach(formule => {
+                const div = document.createElement('div');
+                div.className = 'formule-item';
+                div.innerHTML = `
+                    <h4>${formule.nom}</h4>
+                    <p>${formule.description}</p>
+                    <p class="price">${formule.prix}€ - ${formule.duree} minutes</p>
+                `;
+                div.addEventListener('click', () => selectFormule(formule, div));
+                container.appendChild(div);
+
+                // Pré-sélectionner la formule si elle correspond
+                if (preselectedFormule && formule.nom === preselectedFormule) {
+                    selectFormule(formule, div);
+                    // Scroller vers la formule
+                    setTimeout(() => {
+                        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            });
+        }
+
+        // Sélectionner une formule
+        function selectFormule(formule, element) {
+            document.querySelectorAll('.formule-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedFormule = formule;
+            document.getElementById('formule-selected').value = formule.nom;
+        }
+
+        // Soumettre le formulaire
+        document.getElementById('reservation-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedFormule) {
+                showAlert('Veuillez sélectionner une formule', 'error');
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const data = {
+                nom: formData.get('nom'),
+                prenom: formData.get('prenom'),
+                email: formData.get('email'),
+                telephone: formData.get('telephone'),
+                formule: formData.get('formule'),
+                date_reservation: formData.get('date_reservation'),
+                heure_reservation: formData.get('heure_reservation'),
+                nombre_personnes: parseInt(formData.get('nombre_personnes')),
+                message: formData.get('message')
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/reservations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showAlert('Réservation effectuée avec succès! Nous vous contacterons pour confirmer.', 'success');
+                    e.target.reset();
+                    selectedFormule = null;
+                    document.querySelectorAll('.formule-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                } else {
+                    showAlert(result.error || 'Erreur lors de la réservation', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('Erreur lors de la réservation. Veuillez réessayer.', 'error');
+            }
+        });
+
+        // Afficher une alerte
+        function showAlert(message, type) {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            container.innerHTML = '';
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

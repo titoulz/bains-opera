@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hammam | Les Bains de l'Opéra</title>
+    <meta name="description" content="Un grand hammam à côté de l'Opéra. Découvrez la tradition orientale du hammam pour une relaxation optimale.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style spécifique pour la page hammam */
+        body {
+            background: url('images/hero.jpg') center/cover fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 210, 200, 0.75);
+            z-index: -1;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .top-buttons .btn {
+            background: #8B8B5E;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .hammam-header {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hammam-header h1 {
+            font-size: 2rem;
+            color: #D4915E;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .hammam-header .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .info-btn {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        /* Section bienfaits */
+        .bienfaits-section {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+
+        .bienfaits-section h2 {
+            font-size: 1.5rem;
+            color: #D4915E;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .bienfaits-section p {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .bienfaits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bienfaits-list li {
+            padding: 0.8rem 0;
+            color: #333;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .bienfaits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #D4915E;
+            font-weight: bold;
+        }
+
+        /* Conteneur des formules (bulles) */
+        .formules-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 3rem auto;
+            min-height: 800px;
+            padding: 2rem;
+        }
+
+        .formules-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #D4915E;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+
+        /* Bulles ovales pour les formules */
+        .formule-bubble {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            background: #D9A86A;
+            color: #333;
+        }
+
+        .formule-bubble:hover {
+            transform: scale(1.05);
+        }
+
+        .formule-bubble h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .formule-bubble p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .formule-bubble .price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+            color: #5A4A3A;
+        }
+
+        .formule-bubble .btn-reserver {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .formule-bubble .btn-reserver:hover {
+            background: #4A3A2A;
+            transform: translateY(-2px);
+        }
+
+        /* Positions des bulles */
+        .bubble-simple {
+            width: 280px;
+            height: 260px;
+            top: 0;
+            left: 10%;
+            background: #E8A5A0;
+        }
+
+        .bubble-gommage {
+            width: 300px;
+            height: 280px;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #D4A5A0;
+        }
+
+        .bubble-gommage:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .bubble-complet {
+            width: 280px;
+            height: 260px;
+            top: 0;
+            right: 10%;
+            background: #C9A5A0;
+        }
+
+        .bubble-duo {
+            width: 290px;
+            height: 270px;
+            top: 300px;
+            left: 25%;
+            background: #E8D5D0;
+        }
+
+        .bubble-forfait {
+            width: 290px;
+            height: 270px;
+            top: 300px;
+            right: 25%;
+            background: #D9C5C0;
+        }
+
+        .bubble-info {
+            width: 280px;
+            height: 240px;
+            top: 600px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #A8A870;
+            cursor: default;
+        }
+
+        .bubble-info:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .bubble-info .btn-reserver {
+            background: #5A4A3A;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .formule-bubble {
+                position: relative !important;
+                margin: 2rem auto;
+                left: 0 !important;
+                right: 0 !important;
+                top: 0 !important;
+                transform: none !important;
+            }
+
+            .formule-bubble:hover {
+                transform: scale(1.05) !important;
+            }
+
+            .formules-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="top-buttons">
+        <a href="infos.html" class="btn">BON CADEAU</a>
+        <a href="reservation.html" class="btn">RÉSERVEZ</a>
+    </div>
+
+    <div class="hammam-header">
+        <h1>LE HAMMAM</h1>
+        <p class="subtitle">Découvrez la tradition orientale pour une relaxation optimale</p>
+        <a href="infos.html" class="info-btn">Informations pratiques</a>
+    </div>
+
+    <div class="bienfaits-section">
+        <h2>Le Rituel du Hammam</h2>
+        <p>
+            Plongez dans la tradition millénaire du hammam et découvrez les bienfaits purifiants de la vapeur.
+            Notre hammam traditionnel vous transporte dans un univers de chaleur bienfaisante et de détente absolue.
+        </p>
+        <p>
+            Notre hammam suit le rituel authentique en plusieurs étapes. Commencez par vous habituer
+            progressivement à la chaleur dans la première salle, puis profitez du gommage au savon noir qui
+            élimine les cellules mortes. Le massage au gant de kessa exfolie en douceur et révèle une peau neuve.
+        </p>
+
+        <h2 style="margin-top: 2rem;">Les Bienfaits du Hammam</h2>
+        <ul class="bienfaits-list">
+            <li>Purification profonde de la peau par l'élimination des toxines</li>
+            <li>Amélioration de la circulation sanguine</li>
+            <li>Détente musculaire et soulagement des tensions</li>
+            <li>Renforcement du système immunitaire</li>
+            <li>Relaxation mentale et réduction du stress</li>
+        </ul>
+    </div>
+
+    <div class="formules-container">
+        <h2 class="formules-title">Nos Formules Hammam</h2>
+
+        <div class="formule-bubble bubble-simple">
+            <h3>HAMMAM<br>SIMPLE</h3>
+            <p>Accès au hammam</p>
+            <p>pendant 30 minutes</p>
+            <p class="price">25€</p>
+            <a href="reservation.html?formule=HAMMAM_SIMPLE&type=hammam" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="formule-bubble bubble-gommage">
+            <h3>HAMMAM<br>+ GOMMAGE</h3>
+            <p>Hammam suivi d'un gommage</p>
+            <p>au savon noir et au gant de kessa</p>
+            <p>(45 min)</p>
+            <p class="price">45€</p>
+            <a href="reservation.html?formule=MALTE&type=escale" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="formule-bubble bubble-complet">
+            <h3>RITUEL<br>COMPLET</h3>
+            <p>Hammam + Gommage</p>
+            <p>+ Enveloppement au rhassoul</p>
+            <p>(60 min)</p>
+            <p class="price">65€</p>
+            <a href="reservation.html?formule=ORIENTALE&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="formule-bubble bubble-duo">
+            <h3>HAMMAM<br>DUO</h3>
+            <p>Partagez un moment de détente</p>
+            <p>à deux dans un espace privatisé</p>
+            <p>(30 min)</p>
+            <p class="price">40€</p>
+            <a href="reservation.html?formule=HAMMAM_DUO&type=hammam" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="formule-bubble bubble-forfait">
+            <h3>FORFAIT<br>10 SÉANCES</h3>
+            <p>10 accès hammam simple</p>
+            <p>Économisez 50€</p>
+            <p class="price">200€</p>
+            <a href="reservation.html?formule=HAMMAM_FORFAIT&type=hammam" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="formule-bubble bubble-info">
+            <h3>DÉCOUVREZ<br>NOS ESCALES</h3>
+            <p>Hammam + Gommage + Massage</p>
+            <p>Des formules complètes</p>
+            <p>pour une détente absolue</p>
+            <a href="nos-escales.html" class="btn-reserver">Voir nos escales</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>LES BAINS DE L'OPÉRA</h3>
+                <p>20 Rue Joseph Serlin</p>
+                <p>69001 LYON</p>
+                <p>RÉSERVATION PAR MAIL <a href="mailto:contact@bainsopera.com">PRÉ-RÉSERVER ici</a></p>
+            </div>
+
+            <div class="footer-hours">
+                <h3>HORAIRES</h3>
+                <p>Mercredi de 11h à 21h</p>
+                <p>Vendredi de 11h à 22h</p>
+                <p>Jeudi et Samedi de 11h à 19h</p>
+                <p>FERMÉ DU DIMANCHE AU MARDI INCLUS</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p><strong>HAMMAM RÉSERVÉ AUX FEMMES</strong></p>
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

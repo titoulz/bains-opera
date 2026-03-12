@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Bains de l'Opéra | Hammam & Spa à Lyon</title>
+    <meta name="description" content="Le plus grand hammam traditionnel au cœur de Lyon. Découvrez nos soins, massages et escales bien-être dans un cadre raffiné.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                        url('images/hero.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .hero .btn {
+            margin: 0 0.5rem;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            background: var(--beige);
+            padding: 5rem 3rem;
+        }
+
+        .intro-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .intro-content h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .intro-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--grey);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Services Grid */
+        .services-section {
+            padding: 5rem 3rem;
+            background: var(--white);
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: var(--beige);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--grey);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card .btn {
+            font-size: 0.9rem;
+            padding: 0.8rem 2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--primary);
+            color: var(--white);
+            padding: 5rem 3rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-section .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .cta-section .btn-secondary:hover {
+            background: var(--beige);
+        }
+
+        /* Info Bar */
+        .info-bar {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .info-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .info-item h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .info-item p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .intro-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>LES BAINS DE L'OPÉRA</h1>
+            <p>Le plus grand hammam traditionnel au cœur de Lyon</p>
+            <a href="reservation.html" class="btn">Réserver</a>
+            <a href="infos.html" class="btn btn-secondary">Bon Cadeau</a>
+        </div>
+    </section>
+
+    <section class="intro-section">
+        <div class="intro-content">
+            <h2>Bienvenue aux Bains de l'Opéra</h2>
+            <p>Depuis 25 ans, Les Bains de l'Opéra est le plus grand hammam traditionnel en plein cœur de Lyon avec ses 500 m² dédiés au bien-être et à la beauté.</p>
+            <p>À 1 minute à pied de l'Hôtel de Ville et de l'Opéra, nous proposons hammam traditionnel, jacuzzi, massages, enveloppements, épilations, soins du visage et soins minceur. Le centre a été conçu pour un confort optimal avec sa salle de repos et son salon de thé.</p>
+            <p><strong>Découvrez la tradition du hammam oriental et offrez-vous une escale de bien-être au cœur de Lyon.</strong></p>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Hammam Traditionnel</h3>
+                <p>Découvrez la tradition orientale du hammam pour une relaxation optimale, un pur moment de détente pour le corps et l'esprit.</p>
+                <a href="hammam.html" class="btn">Découvrir</a>
+            </div>
+
+            <div class="service-card">
+                <h3>Nos Escales</h3>
+                <p>Vivez une expérience complète avec nos forfaits bien-être alliant hammam, gommage, massages et soins dans un cadre raffiné.</p>
+                <a href="nos-escales.html" class="btn">Découvrir</a>
+            </div>
+
+            <div class="service-card">
+                <h3>Massages</h3>
+                <p>Laissez-vous aller, notre équipe de professionnelles vous propose une large gamme de massages du monde pour votre détente.</p>
+                <a href="massages.html" class="btn">Découvrir</a>
+            </div>
+
+            <div class="service-card">
+                <h3>Soins Visage</h3>
+                <p>Des soins personnalisés et adaptés à votre type de peau pour révéler votre beauté naturelle dans un environnement apaisant.</p>
+                <a href="soins.html" class="btn">Découvrir</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Offrez-vous un moment d'exception</h2>
+        <p>Réservez dès maintenant votre escale bien-être</p>
+        <a href="reservation.html" class="btn btn-secondary">Prendre rendez-vous</a>
+    </section>
+
+    <section class="info-bar">
+        <div class="info-bar-content">
+            <div class="info-item">
+                <h4>Adresse</h4>
+                <p>20 Rue Joseph Serlin<br>69001 Lyon</p>
+            </div>
+
+            <div class="info-item">
+                <h4>Horaires</h4>
+                <p>Mercredi : 11h - 21h<br>
+                Jeudi et Samedi : 11h - 19h<br>
+                Vendredi : 11h - 22h<br>
+                Fermé Dimanche - Mardi</p>
+            </div>
+
+            <div class="info-item">
+                <h4>Contact</h4>
+                <p>Réservation par mail<br>
+                contact@bainsopera.com</p>
+            </div>
+
+            <div class="info-item">
+                <h4>Information</h4>
+                <p>Hammam réservé aux femmes<br>
+                Cadre intimiste et raffiné</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon. Hammam traditionnel, massages et soins dans un cadre raffiné depuis plus de 25 ans.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="nos-escales.html">Nos Escales</a>
+                <a href="massages.html">Massages</a>
+                <a href="soins.html">Soins Visage</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <a href="infos.html">Infos Pratiques</a>
+                <a href="tarifs.html">Tarifs</a>
+                <a href="infos.html">Horaires</a>
+                <a href="infos.html">Contact</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>20 Rue Joseph Serlin<br>69001 Lyon</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés. | Hammam réservé aux femmes</p>
+        </div>
+    </footer>
+</body>
+</html>

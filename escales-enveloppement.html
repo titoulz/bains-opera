@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hammam & Escales avec Enveloppement | Les Bains de l'Opéra</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style spécifique pour la page escales avec enveloppement */
+        body {
+            background: url('images/hero.jpg') center/cover fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 210, 200, 0.75);
+            z-index: -1;
+        }
+
+        .escales-header {
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .escales-header h1 {
+            font-size: 1.6rem;
+            color: #D4915E;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-btn {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-buttons .btn {
+            background: #8B8B5E;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation entre les types d'escales */
+        .escales-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0 2rem;
+        }
+
+        .escales-nav a {
+            background: rgba(139, 139, 94, 0.3);
+            color: #333;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .escales-nav a:hover {
+            background: rgba(139, 139, 94, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .escales-nav a.active {
+            background: #8B8B5E;
+            color: white;
+            border-color: #8B8B5E;
+        }
+
+        /* Conteneur des formes */
+        .shapes-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto;
+            min-height: 1050px;
+            padding: 2rem;
+        }
+
+        /* Bulles ovales */
+        .bubble-oval {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .bubble-oval:hover {
+            transform: scale(1.05);
+        }
+
+        .bubble-oval h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .bubble-oval p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .bubble-oval .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .bubble-oval .btn-reserver,
+        .hexagon .btn-reserver {
+            background: #5A4A3A;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .bubble-oval .btn-reserver:hover,
+        .hexagon .btn-reserver:hover {
+            background: #4A3A2A;
+            transform: translateY(-2px);
+        }
+
+        /* Hexagones */
+        .hexagon {
+            position: absolute;
+            width: 280px;
+            height: 220px;
+            background: #A8A870;
+            border: 4px solid white;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            color: #333;
+        }
+
+        .hexagon:hover {
+            transform: scale(1.05);
+        }
+
+        .hexagon h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .hexagon p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .hexagon .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Couleurs et positions - Ligne 1 (roses foncés) */
+        .bubble-orientale {
+            background: #C9A5A0;
+            color: #333;
+            width: 300px;
+            height: 280px;
+            top: 0;
+            left: 12%;
+        }
+
+        .bubble-chergui {
+            background: #C9A5A0;
+            color: #333;
+            width: 300px;
+            height: 280px;
+            top: 0;
+            right: 12%;
+        }
+
+        /* Ligne 2 (roses clairs) */
+        .bubble-polynesienne {
+            background: #D4A5A0;
+            color: #333;
+            width: 290px;
+            height: 260px;
+            top: 240px;
+            left: 5%;
+        }
+
+        .bubble-loyang {
+            background: #E8D5D0;
+            color: #333;
+            width: 290px;
+            height: 260px;
+            top: 240px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bubble-loyang:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .bubble-ceylan {
+            background: #E8D5D0;
+            color: #333;
+            width: 290px;
+            height: 260px;
+            top: 240px;
+            right: 5%;
+        }
+
+        /* Ligne 3 (bleus turquoise) */
+        .bubble-massada {
+            background: #A5D5D5;
+            color: #333;
+            width: 300px;
+            height: 270px;
+            top: 470px;
+            left: 20%;
+        }
+
+        .bubble-zephyr {
+            background: #A5D5D5;
+            color: #333;
+            width: 300px;
+            height: 270px;
+            top: 470px;
+            right: 20%;
+        }
+
+        /* Ligne 4 (hexagones verts) */
+        .hexagon-azur {
+            top: 780px;
+            left: 20%;
+        }
+
+        .hexagon-marin {
+            top: 780px;
+            right: 20%;
+        }
+
+        /* Note côté droit */
+        .side-note {
+            position: absolute;
+            top: 520px;
+            right: 2rem;
+            max-width: 200px;
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.3;
+        }
+
+        /* Bandeau bas */
+        .bottom-banner {
+            background: rgba(200, 190, 180, 0.9);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .bottom-banner p {
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .bottom-banner h2 {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bubble-oval,
+            .hexagon {
+                position: relative !important;
+                margin: 2rem auto;
+                left: 0 !important;
+                right: 0 !important;
+                top: 0 !important;
+                transform: none !important;
+            }
+
+            .shapes-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .side-note {
+                position: relative;
+                right: auto;
+                margin: 1rem auto;
+                text-align: center;
+            }
+
+            .escales-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="top-buttons">
+        <a href="infos.html" class="btn">BON CADEAU</a>
+        <a href="infos.html" class="btn">RÉSERVEZ</a>
+    </div>
+
+    <div class="escales-header">
+        <h1>LE HAMMAM & ESCALES avec ENVELOPPEMENT</h1>
+        <a href="infos.html" class="info-btn">Informations pratiques</a>
+    </div>
+
+    <div class="escales-nav">
+        <a href="nos-escales.html">Nos Escales</a>
+        <a href="escales-spa.html">Escales avec SPA</a>
+        <a href="escales-enveloppement.html" class="active">Escales avec Enveloppement</a>
+    </div>
+
+    <div class="shapes-container">
+        <!-- Ligne 1 - Roses foncés -->
+        <div class="bubble-oval bubble-orientale">
+            <h3>ORIENTALE</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement au rhassoul</p>
+            <p class="price">60€</p>
+            <a href="reservation.html?formule=ORIENTALE&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="bubble-oval bubble-chergui">
+            <h3>CHERGUI</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ massage détente de 15 minutes</p>
+            <p>+ enveloppement au rhassoul</p>
+            <p class="price">70€</p>
+            <a href="reservation.html?formule=CHERGUI&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <!-- Ligne 2 - Roses clairs -->
+        <div class="bubble-oval bubble-polynesienne">
+            <h3>POLYNÉSIENNE</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement à la pulpe de coco</p>
+            <p>+ massage Hawaïen de 15 min</p>
+            <p class="price">80€</p>
+            <a href="reservation.html?formule=POLYNÉSIENNE&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="bubble-oval bubble-loyang">
+            <h3>LOYANG</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement au thé vert</p>
+            <p>+ massage chinois de 15 min</p>
+            <p class="price">80€</p>
+            <a href="reservation.html?formule=LOYANG&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="bubble-oval bubble-ceylan">
+            <h3>CEYLAN</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement au thé vert</p>
+            <p>+ massage délassant de 20 min</p>
+            <p class="price">85€</p>
+            <a href="reservation.html?formule=CEYLAN&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <!-- Ligne 3 - Bleus turquoise -->
+        <div class="bubble-oval bubble-massada">
+            <h3>MASSADA</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement de boue marine</p>
+            <p class="price">60€</p>
+            <a href="reservation.html?formule=MASSADA&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="bubble-oval bubble-zephyr">
+            <h3>ZEPHYR</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ massage détente de 15 minutes</p>
+            <p>+ enveloppement de boue marine</p>
+            <p class="price">80€</p>
+            <a href="reservation.html?formule=ZEPHYR&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <!-- Ligne 4 - Hexagones verts -->
+        <div class="hexagon hexagon-azur">
+            <h3>AZUR</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ enveloppement d'algues</p>
+            <p class="price">60€</p>
+            <a href="reservation.html?formule=AZUR&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <div class="hexagon hexagon-marin">
+            <h3>MARIN</h3>
+            <p>Hammam + gommage corps</p>
+            <p>+ massage détente de 15 minutes</p>
+            <p>+ enveloppement d'algues</p>
+            <p class="price">80€</p>
+            <a href="reservation.html?formule=MARIN&type=escale_enveloppement" class="btn-reserver">Réserver</a>
+        </div>
+
+        <!-- Note côté -->
+        <div class="side-note">
+            Pour ces escales, prévoir entre 2h et 2h30<br><br>
+            Massage détente = massage de relaxation et de bien-être, non thérapeutique et non médicalisé.
+        </div>
+    </div>
+
+    <div class="bottom-banner">
+        <p>LES BAINS DE L'OPÉRA - 20 Rue Joseph Serlin  69001 LYON - RÉSERVATION PAR MAIL <a href="mailto:pre-reserver.ici" style="color: #5A4A3A;">PRE-RÉSERVER.ici</a></p>
+        <p>Mercredi de 11h à 21h  -  Vendredi de 11h à 20h  -  Jeudi et Samedi de 11h à 19h  -  FERMÉ AU DIMANCHE AU MARDI INCLUS</p>
+        <h2>HAMMAM RÉSERVÉ AUX FEMMES</h2>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="escales.html">Nos Escales</a>
+                <a href="escales-spa.html">Escales avec SPA</a>
+                <a href="escales-enveloppement.html">Escales avec Enveloppement</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Tél : 04 XX XX XX XX</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Escales | Les Bains de l'Opéra</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style spécifique pour la page escales avec bulles */
+        body {
+            background: url('images/hero.jpg') center/cover fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 210, 200, 0.75);
+            z-index: -1;
+        }
+
+        .escales-header {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .escales-header h1 {
+            font-size: 2.5rem;
+            color: #7A7A7A;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .escales-header .subtitle {
+            font-size: 1.8rem;
+            color: #D4915E;
+            font-weight: 400;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-buttons .btn {
+            background: #8B8B5E;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        /* Conteneur des bulles */
+        .bubbles-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 3rem auto;
+            min-height: 600px;
+            padding: 2rem;
+        }
+
+        /* Bulles individuelles */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .bubble:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fix pour les bulles avec translateX */
+        .bubble-caraibes:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .bubble h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .bubble p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .bubble .price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Couleurs et positions des bulles */
+        .bubble-hammam {
+            background: #9B9B9B;
+            color: #333;
+            width: 280px;
+            height: 280px;
+            top: 0;
+            left: 15%;
+        }
+
+        .bubble-opera {
+            background: #F0B5A8;
+            color: #333;
+            width: 300px;
+            height: 300px;
+            top: 0;
+            right: 15%;
+        }
+
+        .bubble-byzance {
+            background: #F7CABF;
+            color: #333;
+            width: 290px;
+            height: 290px;
+            top: 200px;
+            left: 5%;
+        }
+
+        .bubble-caraibes {
+            background: #C9A5A0;
+            color: white;
+            width: 300px;
+            height: 300px;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bubble-bali {
+            background: #9B9B9B;
+            color: #333;
+            width: 290px;
+            height: 290px;
+            top: 200px;
+            right: 5%;
+        }
+
+        .bubble-jaipur {
+            background: #A5A5A5;
+            color: #333;
+            width: 280px;
+            height: 280px;
+            top: 480px;
+            left: 20%;
+        }
+
+        .bubble-marrakech {
+            background: #F0B5A8;
+            color: #333;
+            width: 300px;
+            height: 300px;
+            top: 480px;
+            right: 20%;
+        }
+
+        .note {
+            text-align: right;
+            padding: 1rem 2rem;
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bubble {
+                position: relative !important;
+                margin: 2rem auto;
+                left: 0 !important;
+                right: 0 !important;
+                top: 0 !important;
+                transform: none !important;
+            }
+
+            .bubbles-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">BAINS DE L'OPÉRA</a></li>
+                <li><a href="hammam.html">HAMMAM</a></li>
+                <li><a href="soins.html">MASSAGES</a></li>
+                <li><a href="soins.html">SOINS VISAGE</a></li>
+                <li><a href="soins.html">ÉPILATIONS</a></li>
+                <li><a href="tarifs.html">OFFRES SPÉCIALES</a></li>
+                <li><a href="infos.html">INFOS PRATIQUES</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="top-buttons">
+        <a href="infos.html" class="btn">BON CADEAU</a>
+        <a href="infos.html" class="btn">RÉSERVEZ</a>
+    </div>
+
+    <div class="escales-header">
+        <h1>LES BAINS DE L'OPÉRA</h1>
+        <p class="subtitle">LE HAMMAM & SES ESCALES</p>
+    </div>
+
+    <div class="bubbles-container">
+        <div class="bubble bubble-hammam">
+            <h3>HAMMAM</h3>
+            <p>Bain de vapeur permettant d'ouvrir les pores de la peau<br>(1h30 maximum)</p>
+            <p class="price">35€</p>
+        </div>
+
+        <div class="bubble bubble-opera">
+            <h3>OPÉRA</h3>
+            <p>Hammam + gommage corps</p>
+            <p class="price">50€</p>
+        </div>
+
+        <div class="bubble bubble-byzance">
+            <h3>BYZANCE</h3>
+            <p>Hammam + gommage corps<br>+ massage détente de 15 minutes</p>
+            <p class="price">60€</p>
+        </div>
+
+        <div class="bubble bubble-caraibes">
+            <h3>CARAÏBES</h3>
+            <p>Hammam + gommage corps<br>+ massage détente de 30 minutes</p>
+            <p class="price">80€</p>
+        </div>
+
+        <div class="bubble bubble-bali">
+            <h3>BALI</h3>
+            <p>Hammam + gommage corps<br>+ massage détente de 45 min aux<br>huiles chaudes aromatiques</p>
+            <p class="price">95€</p>
+        </div>
+
+        <div class="bubble bubble-jaipur">
+            <h3>JAIPUR<sup>*</sup></h3>
+            <p>Hammam + gommage corps<br>+ massage du monde au choix</p>
+            <p class="price">130€</p>
+        </div>
+
+        <div class="bubble bubble-marrakech">
+            <h3>MARRAKECH<sup>*</sup></h3>
+            <p>Hammam + gommage corps +<br>enveloppement au rhassoul<br>+ massage détente de 30 min +<br>soin du visage</p>
+            <p class="price">120€</p>
+        </div>
+    </div>
+
+    <div class="note">
+        * Massage de relaxation et de bien-être,<br>
+        non thérapeutique et non médicalisé.<br>
+        * prévoir environ 3h
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="escales.html">Nos Escales</a>
+                <a href="soins.html">Soins & Massages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Tél : 04 XX XX XX XX</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

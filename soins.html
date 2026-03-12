@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Soins & Massages | Les Bains de l'Opéra</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-reserver {
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+            white-space: nowrap;
+        }
+
+        .btn-reserver:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="hammam.html">Hammam</a></li>
+                <li><a href="massages.html">Massages</a></li>
+                <li><a href="soins.html">Soins Visage</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Nos Escales</span>
+                    <div class="dropdown-menu">
+                        <a href="nos-escales.html">Nos Escales</a>
+                        <a href="escales-spa.html">Nos Escales avec SPA</a>
+                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
+                    </div>
+                </li>
+                <li><a href="tarifs.html">Offres Spéciales</a></li>
+                <li><a href="infos.html">Infos Pratiques</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Nos Soins & Massages</h1>
+        <p>Prenez soin de vous dans un cadre d'exception</p>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>Massages</h2>
+            <p>Nos praticiens diplômés vous offrent une gamme complète de massages pour votre bien-être.</p>
+            <div class="price-list mt-2">
+                <div class="price-item">
+                    <div>
+                        <h4>Massage Relaxant</h4>
+                        <p>Massage aux huiles essentielles pour détendre tout le corps</p>
+                        <p><small>30 min : 40€ | 60 min : 70€ | 90 min : 100€</small></p>
+                    </div>
+                    <a href="reservation.html?formule=MASSAGE_RELAXANT&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage Californien</h4>
+                        <p>Massage enveloppant et fluide pour une relaxation profonde</p>
+                        <p><small>60 min : 75€ | 90 min : 110€</small></p>
+                    </div>
+                    <a href="reservation.html?formule=MASSAGE_CALIFORNIEN&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage aux Pierres Chaudes</h4>
+                        <p>Thérapie par les pierres de basalte chauffées</p>
+                        <p><small>60 min : 85€ | 90 min : 120€</small></p>
+                    </div>
+                    <a href="reservation.html?formule=MASSAGE_PIERRES_CHAUDES&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage Ayurvédique</h4>
+                        <p>Massage traditionnel indien aux huiles chaudes</p>
+                        <p><small>60 min : 80€ | 90 min : 115€</small></p>
+                    </div>
+                    <a href="reservation.html?formule=MASSAGE_AYURVEDIQUE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage Sportif</h4>
+                        <p>Massage tonique et drainant pour les sportifs</p>
+                        <p><small>45 min : 60€ | 60 min : 75€</small></p>
+                    </div>
+                    <a href="reservation.html?formule=MASSAGE_SPORTIF&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage Femme Enceinte</h4>
+                        <p>Massage adapté pour futures mamans (après le 1er trimestre)</p>
+                    </div>
+                    <span class="price">65€</span>
+                    <a href="reservation.html?formule=MASSAGE_FEMME_ENCEINTE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Massage du Dos</h4>
+                        <p>Concentration sur le dos, nuque et épaules (30 min)</p>
+                    </div>
+                    <span class="price">45€</span>
+                    <a href="reservation.html?formule=MASSAGE_DOS&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section mt-3">
+            <h2>Soins du Visage</h2>
+            <p>Des soins personnalisés adaptés à votre type de peau pour révéler votre beauté naturelle.</p>
+            <div class="price-list mt-2">
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Découverte</h4>
+                        <p>Nettoyage, gommage léger, masque et hydratation (45 min)</p>
+                    </div>
+                    <span class="price">45€</span>
+                    <a href="reservation.html?formule=SOIN_DECOUVERTE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Éclat</h4>
+                        <p>Nettoyage profond, gommage, massage, masque vitaminé (60 min)</p>
+                    </div>
+                    <span class="price">65€</span>
+                    <a href="reservation.html?formule=SOIN_ECLAT&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Anti-Âge</h4>
+                        <p>Soin complet avec sérum anti-âge, massage lifting, masque tenseur (75 min)</p>
+                    </div>
+                    <span class="price">85€</span>
+                    <a href="reservation.html?formule=SOIN_ANTI_AGE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Hydratation Intense</h4>
+                        <p>Pour les peaux déshydratées. Masque et ampoule d'acide hyaluronique (60 min)</p>
+                    </div>
+                    <span class="price">70€</span>
+                    <a href="reservation.html?formule=SOIN_HYDRATATION&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Purifiant</h4>
+                        <p>Spécial peaux mixtes et grasses. Extraction, masque purifiant (60 min)</p>
+                    </div>
+                    <span class="price">60€</span>
+                    <a href="reservation.html?formule=SOIN_PURIFIANT&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Prestige</h4>
+                        <p>Le soin ultime : protocole complet avec produits premium (90 min)</p>
+                    </div>
+                    <span class="price">120€</span>
+                    <a href="reservation.html?formule=SOIN_PRESTIGE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section mt-3">
+            <h2>Soins du Corps</h2>
+            <div class="price-list mt-2">
+                <div class="price-item">
+                    <div>
+                        <h4>Gommage Corps</h4>
+                        <p>Exfoliation complète du corps (30 min)</p>
+                    </div>
+                    <span class="price">45€</span>
+                    <a href="reservation.html?formule=GOMMAGE_CORPS&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Enveloppement Hydratant</h4>
+                        <p>Enveloppement au beurre de karité (45 min)</p>
+                    </div>
+                    <span class="price">55€</span>
+                    <a href="reservation.html?formule=ENVELOPPEMENT_HYDRATANT&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Enveloppement Amincissant</h4>
+                        <p>Enveloppement drainant et tonifiant (60 min)</p>
+                    </div>
+                    <span class="price">65€</span>
+                    <a href="reservation.html?formule=ENVELOPPEMENT_AMINCISSANT&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div>
+                        <h4>Soin Minceur Complet</h4>
+                        <p>Gommage + Enveloppement + Massage drainant (90 min)</p>
+                    </div>
+                    <span class="price">110€</span>
+                    <a href="reservation.html?formule=SOIN_MINCEUR&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section mt-3">
+            <h2>Épilations</h2>
+            <p>Épilations professionnelles à la cire de qualité, adaptée aux peaux sensibles.</p>
+            <div class="price-list mt-2">
+                <div class="price-item">
+                    <div><h4>Sourcils</h4></div>
+                    <span class="price">12€</span>
+                    <a href="reservation.html?formule=EPILATION_SOURCILS&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Lèvre supérieure</h4></div>
+                    <span class="price">8€</span>
+                    <a href="reservation.html?formule=EPILATION_LEVRE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Aisselles</h4></div>
+                    <span class="price">15€</span>
+                    <a href="reservation.html?formule=EPILATION_AISSELLES&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Demi-jambes</h4></div>
+                    <span class="price">25€</span>
+                    <a href="reservation.html?formule=EPILATION_DEMI_JAMBES&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Jambes complètes</h4></div>
+                    <span class="price">40€</span>
+                    <a href="reservation.html?formule=EPILATION_JAMBES&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Maillot simple</h4></div>
+                    <span class="price">18€</span>
+                    <a href="reservation.html?formule=EPILATION_MAILLOT_SIMPLE&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+
+                <div class="price-item">
+                    <div><h4>Maillot intégral</h4></div>
+                    <span class="price">35€</span>
+                    <a href="reservation.html?formule=EPILATION_MAILLOT_INTEGRAL&type=soin" class="btn-reserver">Réserver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="features mt-3">
+        <div class="container">
+            <div class="grid">
+                <div class="feature-box">
+                    <h3>Praticiens Diplômés</h3>
+                    <p>Équipe de professionnels expérimentés et passionnés</p>
+                </div>
+
+                <div class="feature-box">
+                    <h3>Produits Premium</h3>
+                    <p>Sélection de produits de qualité, gamme bio disponible</p>
+                </div>
+
+                <div class="feature-box">
+                    <h3>Soins Personnalisés</h3>
+                    <p>Chaque soin est adapté à vos besoins spécifiques</p>
+                </div>
+
+                <div class="feature-box">
+                    <h3>Massages Duo</h3>
+                    <p>Possibilité de réserver une cabine duo pour partager</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container text-center mt-3">
+        <a href="tarifs.html" class="btn">Voir tous les tarifs</a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Les Bains de l'Opéra est votre destination bien-être au cœur de Lyon.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="hammam.html">Hammam</a>
+                <a href="escales.html">Nos Escales</a>
+                <a href="soins.html">Soins & Massages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Tél : 04 XX XX XX XX</p>
+                <p>contact@bainsopera.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
