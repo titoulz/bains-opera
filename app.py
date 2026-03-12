@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template_string
 from flask_cors import CORS
 from dotenv import load_dotenv
 import database
-import email_service
+import email_service_api as email_service
 import json
 from datetime import datetime
 
