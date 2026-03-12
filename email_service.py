@@ -224,7 +224,8 @@ HAMMAM RÉSERVÉ AUX FEMMES
         msg.attach(part2)
 
         # Envoyer l'email
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+            server.set_debuglevel(0)
             server.starttls()
             server.login(SMTP_USERNAME, SMTP_PASSWORD)
             server.send_message(msg)
@@ -232,8 +233,17 @@ HAMMAM RÉSERVÉ AUX FEMMES
         print(f"✓ Email de confirmation envoyé à {reservation['email']}")
         return True
 
+    except smtplib.SMTPAuthenticationError as e:
+        print(f"✗ Erreur d'authentification SMTP : {str(e)}")
+        print("   Vérifiez SMTP_USERNAME et SMTP_PASSWORD")
+        return False
+    except smtplib.SMTPException as e:
+        print(f"✗ Erreur SMTP : {str(e)}")
+        return False
     except Exception as e:
         print(f"✗ Erreur lors de l'envoi de l'email : {str(e)}")
+        import traceback
+        traceback.print_exc()
         return False
 
 def send_rejection_email(reservation):
@@ -330,7 +340,8 @@ L'équipe des Bains de l'Opéra
         msg.attach(part1)
         msg.attach(part2)
 
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+            server.set_debuglevel(0)
             server.starttls()
             server.login(SMTP_USERNAME, SMTP_PASSWORD)
             server.send_message(msg)
@@ -338,6 +349,15 @@ L'équipe des Bains de l'Opéra
         print(f"✓ Email de refus envoyé à {reservation['email']}")
         return True
 
+    except smtplib.SMTPAuthenticationError as e:
+        print(f"✗ Erreur d'authentification SMTP : {str(e)}")
+        print("   Vérifiez SMTP_USERNAME et SMTP_PASSWORD")
+        return False
+    except smtplib.SMTPException as e:
+        print(f"✗ Erreur SMTP : {str(e)}")
+        return False
     except Exception as e:
         print(f"✗ Erreur lors de l'envoi de l'email : {str(e)}")
+        import traceback
+        traceback.print_exc()
         return False
