@@ -417,14 +417,17 @@
                 });
 
                 if (response.ok) {
-                    alert('Statut mis à jour avec succès');
+                    const result = await response.json();
+                    alert(result.message || 'Statut mis à jour avec succès');
                     loadReservations();
                 } else {
-                    alert('Erreur lors de la mise à jour');
+                    const error = await response.json().catch(() => ({}));
+                    alert(`Erreur lors de la mise à jour: ${error.error || response.statusText}`);
+                    console.error('Erreur détaillée:', error);
                 }
             } catch (error) {
                 console.error('Erreur:', error);
-                alert('Erreur lors de la mise à jour');
+                alert(`Erreur de connexion: ${error.message}. Vérifiez que l'API est accessible.`);
             }
         }
 
