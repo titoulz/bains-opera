@@ -7,26 +7,51 @@
     <meta name="description" content="Le plus grand hammam traditionnel au cœur de Lyon. Découvrez nos soins, massages et escales bien-être dans un cadre raffiné.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Hero Section */
-        .hero {
+        /* Carousel Section */
+        .carousel-container {
             position: relative;
             height: 70vh;
             min-height: 500px;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                        url('images/hero.jpg') center/cover no-repeat;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
             text-align: center;
             color: var(--white);
         }
 
-        .hero-content {
-            max-width: 800px;
-            padding: 2rem;
-        }
-
-        .hero h1 {
+        .hero-content h1 {
             font-size: 3.5rem;
             font-weight: 300;
             margin-bottom: 1.5rem;
@@ -34,15 +59,93 @@
             letter-spacing: 2px;
         }
 
-        .hero p {
+        .hero-content p {
             font-size: 1.3rem;
             margin-bottom: 2rem;
             font-weight: 300;
             opacity: 0.95;
         }
 
-        .hero .btn {
+        .hero-content .btn {
             margin: 0 0.5rem;
+        }
+
+        /* Carousel Controls */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s;
+            border-radius: 4px;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .carousel-btn.prev {
+            left: 2rem;
+        }
+
+        .carousel-btn.next {
+            right: 2rem;
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-btn {
+                font-size: 1.5rem;
+                padding: 0.7rem 1rem;
+            }
+
+            .carousel-btn.prev {
+                left: 1rem;
+            }
+
+            .carousel-btn.next {
+                right: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
         }
 
         /* Introduction Section */
@@ -218,14 +321,126 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>LES BAINS DE L'OPÉRA</h1>
-            <p>Le plus grand hammam traditionnel au cœur de Lyon</p>
-            <a href="reservation.html" class="btn">Réserver</a>
-            <a href="infos.html" class="btn btn-secondary">Bon Cadeau</a>
+    <section class="carousel-container">
+        <div class="carousel-slide active" style="background-image: url('images/accueil.avif');">
+            <div class="hero-content">
+                <h1>LES BAINS DE L'OPÉRA</h1>
+                <p>Le plus grand hammam traditionnel au cœur de Lyon</p>
+                <a href="reservation.html" class="btn">Réserver</a>
+                <a href="infos.html" class="btn btn-secondary">Bon Cadeau</a>
+            </div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('images/massage2.avif');">
+            <div class="hero-content">
+                <h1>MASSAGES & SOINS</h1>
+                <p>Découvrez nos rituels de bien-être</p>
+                <a href="massages.html" class="btn">Nos Massages</a>
+            </div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('images/lavabo2.avif');">
+            <div class="hero-content">
+                <h1>UN LIEU D'EXCEPTION</h1>
+                <p>Au cœur du premier arrondissement de Lyon</p>
+                <a href="infos.html" class="btn">En savoir plus</a>
+            </div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('images/lavabo.avif');">
+            <div class="hero-content">
+                <h1>HAMMAM TRADITIONNEL</h1>
+                <p>Réservé aux femmes - Un espace de détente unique</p>
+                <a href="hammam.html" class="btn">Découvrir</a>
+            </div>
+        </div>
+
+        <button class="carousel-btn prev" onclick="changeSlide(-1)">‹</button>
+        <button class="carousel-btn next" onclick="changeSlide(1)">›</button>
+
+        <div class="carousel-indicators">
+            <button class="indicator active" onclick="goToSlide(0)"></button>
+            <button class="indicator" onclick="goToSlide(1)"></button>
+            <button class="indicator" onclick="goToSlide(2)"></button>
+            <button class="indicator" onclick="goToSlide(3)"></button>
         </div>
     </section>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let autoplayInterval;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+            resetAutoplay();
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetAutoplay();
+        }
+
+        function autoplay() {
+            autoplayInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            autoplay();
+        }
+
+        // Démarrer l'autoplay au chargement
+        autoplay();
+
+        // Pause sur hover
+        const carouselContainer = document.querySelector('.carousel-container');
+        carouselContainer.addEventListener('mouseenter', () => {
+            clearInterval(autoplayInterval);
+        });
+
+        carouselContainer.addEventListener('mouseleave', () => {
+            autoplay();
+        });
+
+        // Support tactile pour mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselContainer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carouselContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + 50) {
+                changeSlide(-1);
+            }
+        }
+    </script>
 
     <section class="intro-section">
         <div class="intro-content">
