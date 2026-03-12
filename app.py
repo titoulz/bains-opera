@@ -3,6 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import database
 import email_service_resend as email_service
+import auth
 import json
 from datetime import datetime
 
@@ -10,7 +11,7 @@ from datetime import datetime
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": ["Content-Type"]}})
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Initialiser la base de données au démarrage
 database.init_db()
@@ -18,6 +19,28 @@ database.init_db()
 @app.route('/')
 def index():
     return "API de réservation - Les Bains de l'Opéra"
+
+# Route de connexion
+@app.route('/api/auth/login', methods=['POST'])
+def login():
+    """Authentifie un administrateur"""
+    data = request.get_json()
+
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({'error': 'Username et password requis'}), 400
+
+    if auth.authenticate_user(username, password):
+        token = auth.generate_token(username)
+        return jsonify({
+            'success': True,
+            'token': token,
+            'message': 'Connexion réussie'
+        })
+    else:
+        return jsonify({'error': 'Identifiants incorrects'}), 401
 
 @app.route('/api/formules', methods=['GET'])
 def get_formules():
@@ -71,8 +94,9 @@ def create_reservation():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/reservations', methods=['GET'])
-def get_reservations():
-    """Récupère toutes les réservations"""
+@auth.token_required
+def get_reservations(current_user):
+    """Récupère toutes les réservations (protégé)"""
     reservations = database.get_all_reservations()
 
     reservations_list = []
@@ -95,8 +119,9 @@ def get_reservations():
     return jsonify(reservations_list)
 
 @app.route('/api/reservations/<int:reservation_id>/status', methods=['PUT'])
-def update_reservation_status(reservation_id):
-    """Met à jour le statut d'une réservation et envoie un email si acceptée"""
+@auth.token_required
+def update_reservation_status(current_user, reservation_id):
+    """Met à jour le statut d'une réservation et envoie un email si acceptée (protégé)"""
     data = request.get_json()
 
     if 'statut' not in data:

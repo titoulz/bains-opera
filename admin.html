@@ -23,10 +23,28 @@
             padding: 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .admin-header h1 {
+        .admin-header-content h1 {
             margin-bottom: 0.5rem;
+        }
+
+        .btn-logout {
+            background: #D4915E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #c17d4a;
         }
 
         .filters {
@@ -204,8 +222,11 @@
 </head>
 <body>
     <div class="admin-header">
-        <h1>Administration - Réservations</h1>
-        <p>Les Bains de l'Opéra</p>
+        <div class="admin-header-content">
+            <h1>Administration - Réservations</h1>
+            <p>Les Bains de l'Opéra</p>
+        </div>
+        <button class="btn-logout" onclick="logout()">Se déconnecter</button>
     </div>
 
     <div class="stats">
@@ -278,16 +299,46 @@
         const API_URL = 'https://bains-opera.onrender.com/api';
         let allReservations = [];
 
-        // Charger les réservations au démarrage
+        // Vérifier l'authentification au chargement
         document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        });
+
+        function checkAuth() {
+            const token = localStorage.getItem('admin_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
             loadReservations();
             setupFilters();
-        });
+        }
+
+        function getAuthHeaders() {
+            const token = localStorage.getItem('admin_token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            window.location.href = 'login.html';
+        }
 
         // Charger toutes les réservations
         async function loadReservations() {
             try {
-                const response = await fetch(`${API_URL}/reservations`);
+                const response = await fetch(`${API_URL}/reservations`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+
                 allReservations = await response.json();
                 displayReservations(allReservations);
                 updateStats(allReservations);
@@ -410,9 +461,7 @@
             try {
                 const response = await fetch(`${API_URL}/reservations/${id}/status`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ statut: status })
                 });
 
