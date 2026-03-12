@@ -114,10 +114,15 @@ def update_reservation_status(reservation_id):
 
         # Envoyer un email selon le nouveau statut
         email_sent = False
-        if data['statut'] in ['acceptee', 'confirmee']:
-            email_sent = email_service.send_confirmation_email(dict(reservation))
-        elif data['statut'] in ['refusee', 'annulee']:
-            email_sent = email_service.send_rejection_email(dict(reservation))
+        try:
+            if data['statut'] in ['acceptee', 'confirmee']:
+                print(f"[INFO] Tentative d'envoi d'email de confirmation à {reservation['email']}")
+                email_sent = email_service.send_confirmation_email(dict(reservation))
+            elif data['statut'] in ['refusee', 'annulee']:
+                print(f"[INFO] Tentative d'envoi d'email de refus à {reservation['email']}")
+                email_sent = email_service.send_rejection_email(dict(reservation))
+        except Exception as e:
+            print(f"[ERROR] Exception lors de l'envoi d'email: {str(e)}")
 
         response_message = 'Statut mis à jour avec succès'
         if data['statut'] in ['acceptee', 'confirmee', 'refusee', 'annulee']:
