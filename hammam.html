@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hammam | Les Bains de l'Opéra</title>
-    <meta name="description" content="Un grand hammam à côté de l'Opéra. Découvrez la tradition orientale du hammam pour une relaxation optimale.">
+    <meta name="description" content="Un grand hammam à côté de l'Opéra. Découvrez la tradition orientale du hammam pour une relaxation optimale.">    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Style spécifique pour la page hammam */
@@ -282,25 +284,46 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="hammam.html">Hammam</a></li>
-                <li><a href="massages.html">Massages</a></li>
-                <li><a href="soins.html">Soins Visage</a></li>
-                <li class="dropdown">
-                    <span class="dropdown-toggle">Nos Escales</span>
-                    <div class="dropdown-menu">
-                        <a href="nos-escales.html">Nos Escales</a>
-                        <a href="escales-spa.html">Nos Escales avec SPA</a>
-                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
-                    </div>
-                </li>
-                <li><a href="tarifs.html">Offres Spéciales</a></li>
-                <li><a href="infos.html">Infos Pratiques</a></li>
-            </ul>
+        <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+            <div class="container-fluid px-lg-5">
+                <a class="navbar-brand logo" href="index.html">Les Bains de l'Opéra</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="hammam.html">Hammam</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="massages.html">Massages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="soins.html">Soins Visage</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Nos Escales
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="nos-escales.html">Nos Escales</a></li>
+                                <li><a class="dropdown-item" href="escales-spa.html">Nos Escales avec SPA</a></li>
+                                <li><a class="dropdown-item" href="escales-enveloppement.html">Nos Escales avec Enveloppement</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tarifs.html">Offres Spéciales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="infos.html">Infos Pratiques</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -415,5 +438,7 @@
             <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés.</p>
         </div>
     </footer>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

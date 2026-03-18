@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les Bains de l'Opéra | Hammam & Spa à Lyon</title>
     <meta name="description" content="Le plus grand hammam traditionnel au cœur de Lyon. Découvrez nos soins, massages et escales bien-être dans un cadre raffiné.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Carousel Section */
@@ -125,26 +127,259 @@
             border-radius: 6px;
         }
 
-        @media (max-width: 768px) {
-            .carousel-btn {
-                font-size: 1.5rem;
-                padding: 0.7rem 1rem;
-            }
-
-            .carousel-btn.prev {
-                left: 1rem;
-            }
-
-            .carousel-btn.next {
-                right: 1rem;
+        /* Responsive pour carousel et sections */
+        @media (max-width: 1024px) {
+            .carousel-container {
+                height: 60vh;
+                min-height: 450px;
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
             .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .intro-section {
+                padding: 4rem 2rem;
+            }
+
+            .intro-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .services-section {
+                padding: 4rem 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2.5rem;
+            }
+
+            .cta-section {
+                padding: 4rem 2rem;
+            }
+
+            .info-bar {
+                padding: 2.5rem 2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .carousel-container {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .carousel-btn {
+                font-size: 1.3rem;
+                padding: 0.6rem 0.9rem;
+            }
+
+            .carousel-btn.prev {
+                left: 0.5rem;
+            }
+
+            .carousel-btn.next {
+                right: 0.5rem;
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+                letter-spacing: 1px;
+                margin-bottom: 1rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-content .btn {
+                display: block;
+                margin: 0.5rem auto;
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .carousel-indicators {
+                bottom: 1rem;
+            }
+
+            .indicator {
+                width: 10px;
+                height: 10px;
+            }
+
+            .indicator.active {
+                width: 24px;
+            }
+
+            /* Intro section mobile */
+            .intro-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .intro-content h2 {
+                font-size: 1.9rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .intro-content p {
+                font-size: 1rem;
+                line-height: 1.8;
+                margin-bottom: 1.2rem;
+            }
+
+            /* Services mobile */
+            .services-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .service-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .service-card p {
+                font-size: 0.95rem;
+            }
+
+            .service-card .btn {
+                width: 100%;
+                padding: 0.85rem 2rem;
+            }
+
+            /* CTA section mobile */
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .cta-section p {
                 font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .cta-section .btn-secondary {
+                width: 90%;
+                max-width: 300px;
+                padding: 1rem 2rem;
+            }
+
+            /* Info bar mobile */
+            .info-bar {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .info-bar-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .info-item h4 {
+                font-size: 1.1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .info-item p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-container {
+                height: 45vh;
+                min-height: 350px;
+            }
+
+            .carousel-btn {
+                font-size: 1.1rem;
+                padding: 0.5rem 0.7rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+            }
+
+            .intro-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .intro-content h2 {
+                font-size: 1.7rem;
+            }
+
+            .intro-content p {
+                font-size: 0.95rem;
+            }
+
+            .services-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .service-card {
+                padding: 1.8rem 1.2rem;
+            }
+
+            .cta-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-section p {
+                font-size: 1rem;
+            }
+
+            .info-bar {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .carousel-container {
+                height: 85vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .carousel-btn {
+                padding: 0.5rem 0.8rem;
             }
         }
 
@@ -278,46 +513,49 @@
             line-height: 1.6;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .intro-content h2 {
-                font-size: 1.8rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
     <header>
-        <nav>
-            <a href="index.html" class="logo">Les Bains de l'Opéra</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="hammam.html">Hammam</a></li>
-                <li><a href="massages.html">Massages</a></li>
-                <li><a href="soins.html">Soins Visage</a></li>
-                <li class="dropdown">
-                    <span class="dropdown-toggle">Nos Escales</span>
-                    <div class="dropdown-menu">
-                        <a href="nos-escales.html">Nos Escales</a>
-                        <a href="escales-spa.html">Nos Escales avec SPA</a>
-                        <a href="escales-enveloppement.html">Nos Escales avec Enveloppement</a>
-                    </div>
-                </li>
-                <li><a href="tarifs.html">Offres Spéciales</a></li>
-                <li><a href="infos.html">Infos Pratiques</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+            <div class="container-fluid px-lg-5">
+                <a class="navbar-brand logo" href="index.html">Les Bains de l'Opéra</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="hammam.html">Hammam</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="massages.html">Massages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="soins.html">Soins Visage</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Nos Escales
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="nos-escales.html">Nos Escales</a></li>
+                                <li><a class="dropdown-item" href="escales-spa.html">Nos Escales avec SPA</a></li>
+                                <li><a class="dropdown-item" href="escales-enveloppement.html">Nos Escales avec Enveloppement</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tarifs.html">Offres Spéciales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="infos.html">Infos Pratiques</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -443,38 +681,52 @@
     </script>
 
     <section class="intro-section">
-        <div class="intro-content">
-            <h2>Bienvenue aux Bains de l'Opéra</h2>
-            <p>Depuis 25 ans, Les Bains de l'Opéra est le plus grand hammam traditionnel en plein cœur de Lyon avec ses 500 m² dédiés au bien-être et à la beauté.</p>
-            <p>À 1 minute à pied de l'Hôtel de Ville et de l'Opéra, nous proposons hammam traditionnel, jacuzzi, massages, enveloppements, épilations, soins du visage et soins minceur. Le centre a été conçu pour un confort optimal avec sa salle de repos et son salon de thé.</p>
-            <p><strong>Découvrez la tradition du hammam oriental et offrez-vous une escale de bien-être au cœur de Lyon.</strong></p>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-9 intro-content">
+                    <h2>Bienvenue aux Bains de l'Opéra</h2>
+                    <p>Depuis 25 ans, Les Bains de l'Opéra est le plus grand hammam traditionnel en plein cœur de Lyon avec ses 500 m² dédiés au bien-être et à la beauté.</p>
+                    <p>À 1 minute à pied de l'Hôtel de Ville et de l'Opéra, nous proposons hammam traditionnel, jacuzzi, massages, enveloppements, épilations, soins du visage et soins minceur. Le centre a été conçu pour un confort optimal avec sa salle de repos et son salon de thé.</p>
+                    <p><strong>Découvrez la tradition du hammam oriental et offrez-vous une escale de bien-être au cœur de Lyon.</strong></p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="services-section">
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Hammam Traditionnel</h3>
-                <p>Découvrez la tradition orientale du hammam pour une relaxation optimale, un pur moment de détente pour le corps et l'esprit.</p>
-                <a href="hammam.html" class="btn">Découvrir</a>
-            </div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="service-card h-100">
+                        <h3>Hammam Traditionnel</h3>
+                        <p>Découvrez la tradition orientale du hammam pour une relaxation optimale, un pur moment de détente pour le corps et l'esprit.</p>
+                        <a href="hammam.html" class="btn">Découvrir</a>
+                    </div>
+                </div>
 
-            <div class="service-card">
-                <h3>Nos Escales</h3>
-                <p>Vivez une expérience complète avec nos forfaits bien-être alliant hammam, gommage, massages et soins dans un cadre raffiné.</p>
-                <a href="nos-escales.html" class="btn">Découvrir</a>
-            </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="service-card h-100">
+                        <h3>Nos Escales</h3>
+                        <p>Vivez une expérience complète avec nos forfaits bien-être alliant hammam, gommage, massages et soins dans un cadre raffiné.</p>
+                        <a href="nos-escales.html" class="btn">Découvrir</a>
+                    </div>
+                </div>
 
-            <div class="service-card">
-                <h3>Massages</h3>
-                <p>Laissez-vous aller, notre équipe de professionnelles vous propose une large gamme de massages du monde pour votre détente.</p>
-                <a href="massages.html" class="btn">Découvrir</a>
-            </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="service-card h-100">
+                        <h3>Massages</h3>
+                        <p>Laissez-vous aller, notre équipe de professionnelles vous propose une large gamme de massages du monde pour votre détente.</p>
+                        <a href="massages.html" class="btn">Découvrir</a>
+                    </div>
+                </div>
 
-            <div class="service-card">
-                <h3>Soins Visage</h3>
-                <p>Des soins personnalisés et adaptés à votre type de peau pour révéler votre beauté naturelle dans un environnement apaisant.</p>
-                <a href="soins.html" class="btn">Découvrir</a>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="service-card h-100">
+                        <h3>Soins Visage</h3>
+                        <p>Des soins personnalisés et adaptés à votre type de peau pour révéler votre beauté naturelle dans un environnement apaisant.</p>
+                        <a href="soins.html" class="btn">Découvrir</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -486,30 +738,40 @@
     </section>
 
     <section class="info-bar">
-        <div class="info-bar-content">
-            <div class="info-item">
-                <h4>Adresse</h4>
-                <p>20 Rue Joseph Serlin<br>69001 Lyon</p>
-            </div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="info-item">
+                        <h4>Adresse</h4>
+                        <p>20 Rue Joseph Serlin<br>69001 Lyon</p>
+                    </div>
+                </div>
 
-            <div class="info-item">
-                <h4>Horaires</h4>
-                <p>Mercredi : 11h - 21h<br>
-                Jeudi et Samedi : 11h - 19h<br>
-                Vendredi : 11h - 22h<br>
-                Fermé Dimanche - Mardi</p>
-            </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="info-item">
+                        <h4>Horaires</h4>
+                        <p>Mercredi : 11h - 21h<br>
+                        Jeudi et Samedi : 11h - 19h<br>
+                        Vendredi : 11h - 22h<br>
+                        Fermé Dimanche - Mardi</p>
+                    </div>
+                </div>
 
-            <div class="info-item">
-                <h4>Contact</h4>
-                <p>Réservation par mail<br>
-                contact@bainsopera.com</p>
-            </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="info-item">
+                        <h4>Contact</h4>
+                        <p>Réservation par mail<br>
+                        contact@bainsopera.com</p>
+                    </div>
+                </div>
 
-            <div class="info-item">
-                <h4>Information</h4>
-                <p>Hammam réservé aux femmes<br>
-                Cadre intimiste et raffiné</p>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="info-item">
+                        <h4>Information</h4>
+                        <p>Hammam réservé aux femmes<br>
+                        Cadre intimiste et raffiné</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -548,5 +810,8 @@
             <p>&copy; 2026 Les Bains de l'Opéra. Tous droits réservés. | Hammam réservé aux femmes</p>
         </div>
     </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
