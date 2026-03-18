@@ -395,7 +395,12 @@
             <h1>Administration - Réservations</h1>
             <p>Les Bains de l'Opéra</p>
         </div>
-        <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="admin-content.html" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-block; transition: background 0.3s;" onmouseover="this.style.background='#5a6268'" onmouseout="this.style.background='#6c757d'">
+                Gérer le contenu du site
+            </a>
+            <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+        </div>
     </div>
 
     <div class="stats">
@@ -502,7 +507,10 @@
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/fr.global.min.js'></script>
 
     <script>
-        const API_URL = 'https://bains-opera.onrender.com/api';
+        // Déterminer l'URL de l'API automatiquement
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000/api'
+            : 'https://bains-opera.onrender.com/api';
         let allReservations = [];
         let calendar = null;
 

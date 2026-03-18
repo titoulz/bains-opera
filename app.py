@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 import database
@@ -6,6 +6,7 @@ import email_service_resend as email_service
 import auth
 import json
 from datetime import datetime
+import os
 
 # Charger les variables d'environnement depuis le fichier .env
 load_dotenv()
@@ -19,6 +20,14 @@ database.init_db()
 @app.route('/')
 def index():
     return "API de réservation - Les Bains de l'Opéra"
+
+# Routes pour servir les fichiers HTML et autres fichiers statiques
+@app.route('/<path:path>')
+def serve_static(path):
+    """Sert les fichiers HTML, CSS, JS et images"""
+    if os.path.exists(path):
+        return send_from_directory('.', path)
+    return "Fichier non trouvé", 404
 
 # Route de connexion
 @app.route('/api/auth/login', methods=['POST'])
@@ -161,6 +170,290 @@ def update_reservation_status(current_user, reservation_id):
             'message': response_message,
             'email_sent': email_sent
         })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ============================================
+# Endpoints CMS - Gestion du contenu
+# ============================================
+
+# Paramètres du site
+@app.route('/api/cms/settings', methods=['GET'])
+def get_settings():
+    """Récupère tous les paramètres du site"""
+    try:
+        settings = database.get_all_settings()
+        return jsonify(settings)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/settings', methods=['PUT'])
+@auth.token_required
+def update_settings(current_user):
+    """Met à jour les paramètres du site (protégé)"""
+    data = request.get_json()
+
+    try:
+        for key, value in data.items():
+            database.update_setting(key, value)
+        return jsonify({'success': True, 'message': 'Paramètres mis à jour avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Images du carousel
+@app.route('/api/cms/carousel', methods=['GET'])
+def get_carousel():
+    """Récupère les images du carousel actives"""
+    try:
+        images = database.get_carousel_images()
+        return jsonify(images)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/carousel/all', methods=['GET'])
+@auth.token_required
+def get_all_carousel(current_user):
+    """Récupère toutes les images du carousel (protégé)"""
+    try:
+        images = database.get_all_carousel_images()
+        return jsonify(images)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/carousel', methods=['POST'])
+@auth.token_required
+def create_carousel(current_user):
+    """Crée une nouvelle image de carousel (protégé)"""
+    data = request.get_json()
+
+    required = ['image_url', 'title', 'subtitle']
+    for field in required:
+        if field not in data:
+            return jsonify({'error': f'Le champ {field} est requis'}), 400
+
+    try:
+        image_id = database.create_carousel_image(
+            data['image_url'],
+            data['title'],
+            data['subtitle'],
+            data.get('button_text', ''),
+            data.get('button_link', ''),
+            data.get('display_order', 0)
+        )
+        return jsonify({'success': True, 'id': image_id}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/carousel/<int:image_id>', methods=['PUT'])
+@auth.token_required
+def update_carousel(current_user, image_id):
+    """Met à jour une image de carousel (protégé)"""
+    data = request.get_json()
+
+    try:
+        database.update_carousel_image(
+            image_id,
+            image_url=data.get('image_url'),
+            title=data.get('title'),
+            subtitle=data.get('subtitle'),
+            button_text=data.get('button_text'),
+            button_link=data.get('button_link'),
+            display_order=data.get('display_order'),
+            active=data.get('active')
+        )
+        return jsonify({'success': True, 'message': 'Image mise à jour avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/carousel/<int:image_id>', methods=['DELETE'])
+@auth.token_required
+def delete_carousel(current_user, image_id):
+    """Supprime une image de carousel (protégé)"""
+    try:
+        database.delete_carousel_image(image_id)
+        return jsonify({'success': True, 'message': 'Image supprimée avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Sections de contenu
+@app.route('/api/cms/content', methods=['GET'])
+def get_content():
+    """Récupère les sections de contenu"""
+    page = request.args.get('page')
+    try:
+        sections = database.get_all_content_sections(page)
+        return jsonify(sections)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/content/<page>/<section_key>', methods=['GET'])
+def get_content_section(page, section_key):
+    """Récupère une section de contenu spécifique"""
+    try:
+        section = database.get_content_section(page, section_key)
+        if section:
+            return jsonify(section)
+        return jsonify({'error': 'Section non trouvée'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/content', methods=['PUT'])
+@auth.token_required
+def update_content(current_user):
+    """Met à jour une section de contenu (protégé)"""
+    data = request.get_json()
+
+    required = ['page', 'section_key']
+    for field in required:
+        if field not in data:
+            return jsonify({'error': f'Le champ {field} est requis'}), 400
+
+    try:
+        database.update_content_section(
+            data['page'],
+            data['section_key'],
+            title=data.get('title'),
+            content=data.get('content')
+        )
+        return jsonify({'success': True, 'message': 'Contenu mis à jour avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Offres spéciales
+@app.route('/api/cms/offers', methods=['GET'])
+def get_offers():
+    """Récupère les offres spéciales actives"""
+    try:
+        offers = database.get_special_offers(active_only=True)
+        return jsonify(offers)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/offers/all', methods=['GET'])
+@auth.token_required
+def get_all_offers(current_user):
+    """Récupère toutes les offres spéciales (protégé)"""
+    try:
+        offers = database.get_special_offers(active_only=False)
+        return jsonify(offers)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/offers', methods=['POST'])
+@auth.token_required
+def create_offer(current_user):
+    """Crée une nouvelle offre spéciale (protégé)"""
+    data = request.get_json()
+
+    required = ['title', 'description']
+    for field in required:
+        if field not in data:
+            return jsonify({'error': f'Le champ {field} est requis'}), 400
+
+    try:
+        offer_id = database.create_special_offer(
+            data['title'],
+            data['description'],
+            price=data.get('price'),
+            old_price=data.get('old_price'),
+            valid_from=data.get('valid_from'),
+            valid_until=data.get('valid_until')
+        )
+        return jsonify({'success': True, 'id': offer_id}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/offers/<int:offer_id>', methods=['PUT'])
+@auth.token_required
+def update_offer(current_user, offer_id):
+    """Met à jour une offre spéciale (protégé)"""
+    data = request.get_json()
+
+    try:
+        database.update_special_offer(
+            offer_id,
+            title=data.get('title'),
+            description=data.get('description'),
+            price=data.get('price'),
+            old_price=data.get('old_price'),
+            valid_from=data.get('valid_from'),
+            valid_until=data.get('valid_until'),
+            active=data.get('active')
+        )
+        return jsonify({'success': True, 'message': 'Offre mise à jour avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/offers/<int:offer_id>', methods=['DELETE'])
+@auth.token_required
+def delete_offer(current_user, offer_id):
+    """Supprime une offre spéciale (protégé)"""
+    try:
+        database.delete_special_offer(offer_id)
+        return jsonify({'success': True, 'message': 'Offre supprimée avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Gestion des formules
+@app.route('/api/cms/formules', methods=['GET'])
+@auth.token_required
+def get_all_formules_admin(current_user):
+    """Récupère toutes les formules (protégé)"""
+    try:
+        formules = database.get_all_formules()
+        return jsonify(formules)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/formules', methods=['POST'])
+@auth.token_required
+def create_formule_admin(current_user):
+    """Crée une nouvelle formule (protégé)"""
+    data = request.get_json()
+
+    required = ['nom', 'type', 'description', 'prix', 'duree']
+    for field in required:
+        if field not in data:
+            return jsonify({'error': f'Le champ {field} est requis'}), 400
+
+    try:
+        formule_id = database.create_formule(
+            data['nom'],
+            data['type'],
+            data['description'],
+            data['prix'],
+            data['duree']
+        )
+        return jsonify({'success': True, 'id': formule_id}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/formules/<int:formule_id>', methods=['PUT'])
+@auth.token_required
+def update_formule_admin(current_user, formule_id):
+    """Met à jour une formule (protégé)"""
+    data = request.get_json()
+
+    try:
+        database.update_formule(
+            formule_id,
+            nom=data.get('nom'),
+            type_formule=data.get('type'),
+            description=data.get('description'),
+            prix=data.get('prix'),
+            duree=data.get('duree')
+        )
+        return jsonify({'success': True, 'message': 'Formule mise à jour avec succès'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cms/formules/<int:formule_id>', methods=['DELETE'])
+@auth.token_required
+def delete_formule_admin(current_user, formule_id):
+    """Supprime une formule (protégé)"""
+    try:
+        database.delete_formule(formule_id)
+        return jsonify({'success': True, 'message': 'Formule supprimée avec succès'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

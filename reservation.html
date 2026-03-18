@@ -348,7 +348,10 @@
     </footer>
 
     <script>
-        const API_URL = 'https://bains-opera.onrender.com/api';
+        // Déterminer l'URL de l'API automatiquement
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000/api'
+            : 'https://bains-opera.onrender.com/api';
         let formules = [];
         let selectedFormule = null;
 

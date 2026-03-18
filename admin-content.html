@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion du Contenu | Les Bains de l'Opéra</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 1rem;
+        }
+
+        .admin-header {
+            background: #2C2C2C;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header-content h1 {
+            margin-bottom: 0.5rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+
+        .admin-header-content p {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            color: white;
+        }
+
+        .btn-logout {
+            background: #D4915E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #c17d4a;
+        }
+
+        .content-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #D4915E;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: #2C2C2C;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #D4915E;
+            border: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #D4915E;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid #D4915E;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: #2C2C2C;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #D4915E;
+            box-shadow: 0 0 0 0.2rem rgba(212, 145, 94, 0.25);
+        }
+
+        .btn-primary {
+            background: #D4915E;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #c17d4a;
+        }
+
+        .btn-success {
+            background: #28A745;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #DC3545;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #C82333;
+        }
+
+        .alert {
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .table {
+            margin-top: 1rem;
+        }
+
+        .table th {
+            background: #D4915E;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .editor-container {
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            margin-top: 1rem;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .admin-header {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-buttons {
+                width: 100%;
+            }
+
+            .btn-secondary, .btn-logout {
+                width: 100%;
+            }
+
+            .content-container {
+                padding: 1rem;
+            }
+
+            .nav-tabs .nav-link {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-header-content">
+            <h1>Gestion du Contenu</h1>
+            <p>Les Bains de l'Opéra</p>
+        </div>
+        <div class="header-buttons">
+            <a href="admin.html" class="btn-secondary">Retour aux réservations</a>
+            <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <ul class="nav nav-tabs" id="contentTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">
+                    Paramètres
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="carousel-tab" data-bs-toggle="tab" data-bs-target="#carousel" type="button" role="tab">
+                    Carousel
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="formules-tab" data-bs-toggle="tab" data-bs-target="#formules" type="button" role="tab">
+                    Formules & Tarifs
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="offers-tab" data-bs-toggle="tab" data-bs-target="#offers" type="button" role="tab">
+                    Offres Spéciales
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="contentTabsContent">
+            <!-- Paramètres -->
+            <div class="tab-pane fade show active" id="settings" role="tabpanel">
+                <div id="settings-alert"></div>
+                <form id="settings-form">
+                    <div class="form-section">
+                        <h3>Informations Générales</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nom du site</label>
+                                <input type="text" class="form-control" name="site_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-control" name="site_description" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Contact</h3>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Adresse</label>
+                                <input type="text" class="form-control" name="address" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" name="phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Horaires d'ouverture</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Lundi</label>
+                                <input type="text" class="form-control" name="hours_lundi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mardi</label>
+                                <input type="text" class="form-control" name="hours_mardi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mercredi</label>
+                                <input type="text" class="form-control" name="hours_mercredi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jeudi</label>
+                                <input type="text" class="form-control" name="hours_jeudi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Vendredi</label>
+                                <input type="text" class="form-control" name="hours_vendredi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Samedi</label>
+                                <input type="text" class="form-control" name="hours_samedi" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Dimanche</label>
+                                <input type="text" class="form-control" name="hours_dimanche" placeholder="Ex: 11h - 19h ou Fermé">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer les paramètres</button>
+                </form>
+            </div>
+
+            <!-- Carousel -->
+            <div class="tab-pane fade" id="carousel" role="tabpanel">
+                <div id="carousel-alert"></div>
+                <button class="btn btn-success mb-3" onclick="showCarouselModal()">
+                    Ajouter une image
+                </button>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ordre</th>
+                                <th>Titre</th>
+                                <th>Sous-titre</th>
+                                <th>Image</th>
+                                <th>Actif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="carousel-tbody">
+                            <tr>
+                                <td colspan="6" class="text-center">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Formules & Tarifs -->
+            <div class="tab-pane fade" id="formules" role="tabpanel">
+                <div id="formules-alert"></div>
+                <button class="btn btn-success mb-3" onclick="showFormuleModal()">
+                    Ajouter une formule
+                </button>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Prix</th>
+                                <th>Durée</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="formules-tbody">
+                            <tr>
+                                <td colspan="6" class="text-center">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Offres Spéciales -->
+            <div class="tab-pane fade" id="offers" role="tabpanel">
+                <div id="offers-alert"></div>
+                <button class="btn btn-success mb-3" onclick="showOfferModal()">
+                    Ajouter une offre
+                </button>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Description</th>
+                                <th>Prix</th>
+                                <th>Validité</th>
+                                <th>Actif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offers-tbody">
+                            <tr>
+                                <td colspan="6" class="text-center">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Carousel -->
+    <div class="modal fade" id="carouselModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carouselModalLabel">Ajouter une image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="carousel-form">
+                    <div class="modal-body">
+                        <input type="hidden" id="carousel-id">
+                        <div class="mb-3">
+                            <label class="form-label">URL de l'image</label>
+                            <input type="text" class="form-control" id="carousel-image-url" required>
+                            <small class="text-muted">Ex: images/monimage.jpg</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Titre</label>
+                            <input type="text" class="form-control" id="carousel-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Sous-titre</label>
+                            <input type="text" class="form-control" id="carousel-subtitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Texte du bouton</label>
+                            <input type="text" class="form-control" id="carousel-button-text">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Lien du bouton</label>
+                            <input type="text" class="form-control" id="carousel-button-link">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ordre d'affichage</label>
+                            <input type="number" class="form-control" id="carousel-order" value="1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Formule -->
+    <div class="modal fade" id="formuleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formuleModalLabel">Ajouter une formule</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formule-form">
+                    <div class="modal-body">
+                        <input type="hidden" id="formule-id">
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="formule-nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" id="formule-type" required>
+                                <option value="escale">Escale</option>
+                                <option value="escale_spa">Escale avec SPA</option>
+                                <option value="hammam">Hammam</option>
+                                <option value="massage">Massage</option>
+                                <option value="soin">Soin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="formule-description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix (€)</label>
+                            <input type="number" step="0.01" class="form-control" id="formule-prix" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Durée (minutes)</label>
+                            <input type="number" class="form-control" id="formule-duree" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Offre -->
+    <div class="modal fade" id="offerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="offerModalLabel">Ajouter une offre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="offer-form">
+                    <div class="modal-body">
+                        <input type="hidden" id="offer-id">
+                        <div class="mb-3">
+                            <label class="form-label">Titre</label>
+                            <input type="text" class="form-control" id="offer-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="offer-description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix (€)</label>
+                            <input type="number" step="0.01" class="form-control" id="offer-price">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix barré (€)</label>
+                            <input type="number" step="0.01" class="form-control" id="offer-old-price">
+                            <small class="text-muted">Prix avant réduction (optionnel)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Valide du</label>
+                            <input type="date" class="form-control" id="offer-valid-from">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Valide jusqu'au</label>
+                            <input type="date" class="form-control" id="offer-valid-until">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Déterminer l'URL de l'API automatiquement
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000/api'
+            : 'https://bains-opera.onrender.com/api';
+
+        // Vérifier l'authentification au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        });
+
+        function checkAuth() {
+            const token = localStorage.getItem('admin_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            loadSettings();
+            loadCarousel();
+            loadFormules();
+            loadOffers();
+        }
+
+        function getAuthHeaders() {
+            const token = localStorage.getItem('admin_token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            window.location.href = 'login.html';
+        }
+
+        function showAlert(containerId, message, type = 'success') {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // ============================================
+        // Paramètres
+        // ============================================
+
+        async function loadSettings() {
+            try {
+                const response = await fetch(`${API_URL}/cms/settings`);
+                const settings = await response.json();
+
+                const form = document.getElementById('settings-form');
+                Object.keys(settings).forEach(key => {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        input.value = settings[key] || '';
+                    }
+                });
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('settings-alert', 'Erreur lors du chargement des paramètres', 'danger');
+            }
+        }
+
+        document.getElementById('settings-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const settings = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch(`${API_URL}/cms/settings`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(settings)
+                });
+
+                if (response.ok) {
+                    showAlert('settings-alert', 'Paramètres enregistrés avec succès !', 'success');
+                } else {
+                    throw new Error('Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('settings-alert', 'Erreur lors de la sauvegarde des paramètres', 'danger');
+            }
+        });
+
+        // ============================================
+        // Carousel
+        // ============================================
+
+        async function loadCarousel() {
+            try {
+                const response = await fetch(`${API_URL}/cms/carousel/all`, {
+                    headers: getAuthHeaders()
+                });
+                const images = await response.json();
+
+                const tbody = document.getElementById('carousel-tbody');
+                if (images.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Aucune image</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = images.map(img => `
+                    <tr>
+                        <td>${img.display_order}</td>
+                        <td>${img.title}</td>
+                        <td>${img.subtitle}</td>
+                        <td><img src="${img.image_url}" alt="${img.title}" style="max-width: 100px;"></td>
+                        <td>${img.active ? '✓' : '✗'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editCarouselImage(${img.id})">Modifier</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCarouselImage(${img.id})">Supprimer</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('carousel-alert', 'Erreur lors du chargement du carousel', 'danger');
+            }
+        }
+
+        function showCarouselModal(id = null) {
+            const modal = new bootstrap.Modal(document.getElementById('carouselModal'));
+            document.getElementById('carousel-form').reset();
+            document.getElementById('carousel-id').value = id || '';
+            document.getElementById('carouselModalLabel').textContent = id ? 'Modifier l\'image' : 'Ajouter une image';
+
+            if (id) {
+                // Charger les données de l'image
+                loadCarouselImage(id);
+            }
+
+            modal.show();
+        }
+
+        async function loadCarouselImage(id) {
+            try {
+                const response = await fetch(`${API_URL}/cms/carousel/all`, {
+                    headers: getAuthHeaders()
+                });
+                const images = await response.json();
+                const image = images.find(img => img.id === id);
+
+                if (image) {
+                    document.getElementById('carousel-image-url').value = image.image_url;
+                    document.getElementById('carousel-title').value = image.title;
+                    document.getElementById('carousel-subtitle').value = image.subtitle;
+                    document.getElementById('carousel-button-text').value = image.button_text || '';
+                    document.getElementById('carousel-button-link').value = image.button_link || '';
+                    document.getElementById('carousel-order').value = image.display_order;
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        document.getElementById('carousel-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('carousel-id').value;
+            const data = {
+                image_url: document.getElementById('carousel-image-url').value,
+                title: document.getElementById('carousel-title').value,
+                subtitle: document.getElementById('carousel-subtitle').value,
+                button_text: document.getElementById('carousel-button-text').value,
+                button_link: document.getElementById('carousel-button-link').value,
+                display_order: parseInt(document.getElementById('carousel-order').value)
+            };
+
+            try {
+                const url = id ? `${API_URL}/cms/carousel/${id}` : `${API_URL}/cms/carousel`;
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('carouselModal')).hide();
+                    showAlert('carousel-alert', 'Image enregistrée avec succès !', 'success');
+                    loadCarousel();
+                } else {
+                    throw new Error('Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la sauvegarde de l\'image');
+            }
+        });
+
+        function editCarouselImage(id) {
+            showCarouselModal(id);
+        }
+
+        async function deleteCarouselImage(id) {
+            if (!confirm('Voulez-vous vraiment supprimer cette image ?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/cms/carousel/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    showAlert('carousel-alert', 'Image supprimée avec succès !', 'success');
+                    loadCarousel();
+                } else {
+                    throw new Error('Erreur lors de la suppression');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression de l\'image');
+            }
+        }
+
+        // ============================================
+        // Formules
+        // ============================================
+
+        async function loadFormules() {
+            try {
+                const response = await fetch(`${API_URL}/cms/formules`, {
+                    headers: getAuthHeaders()
+                });
+                const formules = await response.json();
+
+                const tbody = document.getElementById('formules-tbody');
+                if (formules.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Aucune formule</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = formules.map(f => `
+                    <tr>
+                        <td><strong>${f.nom}</strong></td>
+                        <td>${getTypeLabel(f.type)}</td>
+                        <td>${f.description}</td>
+                        <td>${f.prix} €</td>
+                        <td>${f.duree} min</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editFormule(${f.id})">Modifier</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteFormule(${f.id})">Supprimer</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('formules-alert', 'Erreur lors du chargement des formules', 'danger');
+            }
+        }
+
+        function getTypeLabel(type) {
+            const labels = {
+                'escale': 'Escale',
+                'escale_spa': 'Escale avec SPA',
+                'hammam': 'Hammam',
+                'massage': 'Massage',
+                'soin': 'Soin'
+            };
+            return labels[type] || type;
+        }
+
+        function showFormuleModal(id = null) {
+            const modal = new bootstrap.Modal(document.getElementById('formuleModal'));
+            document.getElementById('formule-form').reset();
+            document.getElementById('formule-id').value = id || '';
+            document.getElementById('formuleModalLabel').textContent = id ? 'Modifier la formule' : 'Ajouter une formule';
+
+            if (id) {
+                loadFormule(id);
+            }
+
+            modal.show();
+        }
+
+        async function loadFormule(id) {
+            try {
+                const response = await fetch(`${API_URL}/cms/formules`, {
+                    headers: getAuthHeaders()
+                });
+                const formules = await response.json();
+                const formule = formules.find(f => f.id === id);
+
+                if (formule) {
+                    document.getElementById('formule-nom').value = formule.nom;
+                    document.getElementById('formule-type').value = formule.type;
+                    document.getElementById('formule-description').value = formule.description;
+                    document.getElementById('formule-prix').value = formule.prix;
+                    document.getElementById('formule-duree').value = formule.duree;
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        document.getElementById('formule-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('formule-id').value;
+            const data = {
+                nom: document.getElementById('formule-nom').value,
+                type: document.getElementById('formule-type').value,
+                description: document.getElementById('formule-description').value,
+                prix: parseFloat(document.getElementById('formule-prix').value),
+                duree: parseInt(document.getElementById('formule-duree').value)
+            };
+
+            try {
+                const url = id ? `${API_URL}/cms/formules/${id}` : `${API_URL}/cms/formules`;
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('formuleModal')).hide();
+                    showAlert('formules-alert', 'Formule enregistrée avec succès !', 'success');
+                    loadFormules();
+                } else {
+                    throw new Error('Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la sauvegarde de la formule');
+            }
+        });
+
+        function editFormule(id) {
+            showFormuleModal(id);
+        }
+
+        async function deleteFormule(id) {
+            if (!confirm('Voulez-vous vraiment supprimer cette formule ?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/cms/formules/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    showAlert('formules-alert', 'Formule supprimée avec succès !', 'success');
+                    loadFormules();
+                } else {
+                    throw new Error('Erreur lors de la suppression');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression de la formule');
+            }
+        }
+
+        // ============================================
+        // Offres
+        // ============================================
+
+        async function loadOffers() {
+            try {
+                const response = await fetch(`${API_URL}/cms/offers/all`, {
+                    headers: getAuthHeaders()
+                });
+                const offers = await response.json();
+
+                const tbody = document.getElementById('offers-tbody');
+                if (offers.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Aucune offre</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = offers.map(o => `
+                    <tr>
+                        <td><strong>${o.title}</strong></td>
+                        <td>${o.description}</td>
+                        <td>${o.price ? o.price + ' €' : '-'}</td>
+                        <td>${formatDateRange(o.valid_from, o.valid_until)}</td>
+                        <td>${o.active ? '✓' : '✗'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editOffer(${o.id})">Modifier</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteOffer(${o.id})">Supprimer</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('offers-alert', 'Erreur lors du chargement des offres', 'danger');
+            }
+        }
+
+        function formatDateRange(from, until) {
+            if (!from && !until) return 'Permanent';
+            if (from && !until) return `Du ${formatDate(from)}`;
+            if (!from && until) return `Jusqu'au ${formatDate(until)}`;
+            return `${formatDate(from)} - ${formatDate(until)}`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR');
+        }
+
+        function showOfferModal(id = null) {
+            const modal = new bootstrap.Modal(document.getElementById('offerModal'));
+            document.getElementById('offer-form').reset();
+            document.getElementById('offer-id').value = id || '';
+            document.getElementById('offerModalLabel').textContent = id ? 'Modifier l\'offre' : 'Ajouter une offre';
+
+            if (id) {
+                loadOffer(id);
+            }
+
+            modal.show();
+        }
+
+        async function loadOffer(id) {
+            try {
+                const response = await fetch(`${API_URL}/cms/offers/all`, {
+                    headers: getAuthHeaders()
+                });
+                const offers = await response.json();
+                const offer = offers.find(o => o.id === id);
+
+                if (offer) {
+                    document.getElementById('offer-title').value = offer.title;
+                    document.getElementById('offer-description').value = offer.description;
+                    document.getElementById('offer-price').value = offer.price || '';
+                    document.getElementById('offer-old-price').value = offer.old_price || '';
+                    document.getElementById('offer-valid-from').value = offer.valid_from || '';
+                    document.getElementById('offer-valid-until').value = offer.valid_until || '';
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        document.getElementById('offer-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('offer-id').value;
+            const data = {
+                title: document.getElementById('offer-title').value,
+                description: document.getElementById('offer-description').value,
+                price: document.getElementById('offer-price').value ? parseFloat(document.getElementById('offer-price').value) : null,
+                old_price: document.getElementById('offer-old-price').value ? parseFloat(document.getElementById('offer-old-price').value) : null,
+                valid_from: document.getElementById('offer-valid-from').value || null,
+                valid_until: document.getElementById('offer-valid-until').value || null
+            };
+
+            try {
+                const url = id ? `${API_URL}/cms/offers/${id}` : `${API_URL}/cms/offers`;
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('offerModal')).hide();
+                    showAlert('offers-alert', 'Offre enregistrée avec succès !', 'success');
+                    loadOffers();
+                } else {
+                    throw new Error('Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la sauvegarde de l\'offre');
+            }
+        });
+
+        function editOffer(id) {
+            showOfferModal(id);
+        }
+
+        async function deleteOffer(id) {
+            if (!confirm('Voulez-vous vraiment supprimer cette offre ?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/cms/offers/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    showAlert('offers-alert', 'Offre supprimée avec succès !', 'success');
+                    loadOffers();
+                } else {
+                    throw new Error('Erreur lors de la suppression');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression de l\'offre');
+            }
+        }
+    </script>
+</body>
+</html>

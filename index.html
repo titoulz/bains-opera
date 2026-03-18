@@ -559,7 +559,9 @@
         </nav>
     </header>
 
+    <!-- Le carousel sera chargé dynamiquement par content-loader.js -->
     <section class="carousel-container">
+        <!-- Contenu de secours pendant le chargement -->
         <div class="carousel-slide active" style="background-image: url('images/accueil.avif');">
             <div class="hero-content">
                 <h1>LES BAINS DE L'OPÉRA</h1>
@@ -568,117 +570,7 @@
                 <a href="infos.html" class="btn btn-secondary">Bon Cadeau</a>
             </div>
         </div>
-        <div class="carousel-slide" style="background-image: url('images/massage2.avif');">
-            <div class="hero-content">
-                <h1>MASSAGES & SOINS</h1>
-                <p>Découvrez nos rituels de bien-être</p>
-                <a href="massages.html" class="btn">Nos Massages</a>
-            </div>
-        </div>
-        <div class="carousel-slide" style="background-image: url('images/lavabo2.avif');">
-            <div class="hero-content">
-                <h1>UN LIEU D'EXCEPTION</h1>
-                <p>Au cœur du premier arrondissement de Lyon</p>
-                <a href="infos.html" class="btn">En savoir plus</a>
-            </div>
-        </div>
-        <div class="carousel-slide" style="background-image: url('images/lavabo.avif');">
-            <div class="hero-content">
-                <h1>HAMMAM TRADITIONNEL</h1>
-                <p>Réservé aux femmes - Un espace de détente unique</p>
-                <a href="hammam.html" class="btn">Découvrir</a>
-            </div>
-        </div>
-
-        <button class="carousel-btn prev" onclick="changeSlide(-1)">‹</button>
-        <button class="carousel-btn next" onclick="changeSlide(1)">›</button>
-
-        <div class="carousel-indicators">
-            <button class="indicator active" onclick="goToSlide(0)"></button>
-            <button class="indicator" onclick="goToSlide(1)"></button>
-            <button class="indicator" onclick="goToSlide(2)"></button>
-            <button class="indicator" onclick="goToSlide(3)"></button>
-        </div>
     </section>
-
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const indicators = document.querySelectorAll('.indicator');
-        let autoplayInterval;
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            indicators.forEach(indicator => indicator.classList.remove('active'));
-
-            if (index >= slides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = index;
-            }
-
-            slides[currentSlide].classList.add('active');
-            indicators[currentSlide].classList.add('active');
-        }
-
-        function changeSlide(direction) {
-            showSlide(currentSlide + direction);
-            resetAutoplay();
-        }
-
-        function goToSlide(index) {
-            showSlide(index);
-            resetAutoplay();
-        }
-
-        function autoplay() {
-            autoplayInterval = setInterval(() => {
-                changeSlide(1);
-            }, 5000);
-        }
-
-        function resetAutoplay() {
-            clearInterval(autoplayInterval);
-            autoplay();
-        }
-
-        // Démarrer l'autoplay au chargement
-        autoplay();
-
-        // Pause sur hover
-        const carouselContainer = document.querySelector('.carousel-container');
-        carouselContainer.addEventListener('mouseenter', () => {
-            clearInterval(autoplayInterval);
-        });
-
-        carouselContainer.addEventListener('mouseleave', () => {
-            autoplay();
-        });
-
-        // Support tactile pour mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        carouselContainer.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        carouselContainer.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                changeSlide(1);
-            }
-            if (touchEndX > touchStartX + 50) {
-                changeSlide(-1);
-            }
-        }
-    </script>
 
     <section class="intro-section">
         <div class="container">
@@ -813,5 +705,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Content Loader - Charge le contenu dynamique -->
+    <script src="content-loader.js"></script>
 </body>
 </html>
