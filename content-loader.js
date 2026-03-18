@@ -296,9 +296,170 @@ function displaySpecialOffers(offers) {
 }
 
 /**
+ * Applique le thème personnalisé du site
+ */
+async function loadAndApplyTheme() {
+    try {
+        const response = await fetch(`${API_URL}/cms/settings`);
+        const settings = await response.json();
+
+        applyTheme(settings);
+    } catch (error) {
+        console.error('Erreur lors du chargement du thème:', error);
+    }
+}
+
+/**
+ * Applique le thème aux variables CSS
+ */
+function applyTheme(settings) {
+    // Créer un style dynamique pour le thème
+    let themeStyle = document.getElementById('dynamic-theme-style');
+    if (!themeStyle) {
+        themeStyle = document.createElement('style');
+        themeStyle.id = 'dynamic-theme-style';
+        document.head.appendChild(themeStyle);
+    }
+
+    const primaryColor = settings.theme_primary_color || '#D4915E';
+    const secondaryColor = settings.theme_secondary_color || '#2C2C2C';
+    const accentColor = settings.theme_accent_color || '#C67D4E';
+    const bgColor = settings.theme_background_color || '#F5F5F5';
+    const textColor = settings.theme_text_color || '#333333';
+    const lightBgColor = settings.theme_light_bg_color || '#FFF9F5';
+    const fontFamily = settings.theme_font_family || 'Arial, sans-serif';
+    const headingFont = settings.theme_heading_font || 'Georgia, serif';
+
+    themeStyle.textContent = `
+        :root {
+            --primary: ${primaryColor};
+            --secondary: ${secondaryColor};
+            --accent: ${accentColor};
+            --background: ${bgColor};
+            --text: ${textColor};
+            --light-bg: ${lightBgColor};
+            --beige: ${lightBgColor};
+            --dark: ${secondaryColor};
+            --grey: ${textColor};
+            --white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            font-family: ${fontFamily};
+        }
+
+        h1, h2, h3, h4, h5, h6, .logo {
+            font-family: ${headingFont};
+        }
+
+        /* Boutons */
+        .btn, .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn:hover, .btn-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent);
+        }
+
+        /* Navigation */
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Sections */
+        .intro-section {
+            background: var(--light-bg);
+        }
+
+        .intro-content h2, .service-card h3 {
+            color: var(--primary);
+        }
+
+        .service-card {
+            background: var(--light-bg);
+        }
+
+        .cta-section {
+            background: var(--primary);
+        }
+
+        .info-bar {
+            background: var(--dark);
+        }
+
+        .info-item h4 {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+        }
+
+        /* Prix */
+        .price {
+            color: var(--primary);
+        }
+
+        /* Page header */
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--secondary);
+        }
+    `;
+
+    // Appliquer les textes personnalisables sur la page d'accueil
+    if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
+        applyHomePageTexts(settings);
+    }
+}
+
+/**
+ * Applique les textes personnalisables de la page d'accueil
+ */
+function applyHomePageTexts(settings) {
+    // Titre et sous-titre intro
+    const introTitle = document.querySelector('.intro-content h2');
+    if (introTitle && settings.home_intro_title) {
+        introTitle.textContent = settings.home_intro_title;
+    }
+
+    const introText = document.querySelector('.intro-content p');
+    if (introText && settings.home_intro_text) {
+        introText.textContent = settings.home_intro_text;
+    }
+
+    // Section CTA
+    const ctaTitle = document.querySelector('.cta-section h2');
+    if (ctaTitle && settings.cta_section_title) {
+        ctaTitle.textContent = settings.cta_section_title;
+    }
+
+    const ctaSubtitle = document.querySelector('.cta-section p');
+    if (ctaSubtitle && settings.cta_section_subtitle) {
+        ctaSubtitle.textContent = settings.cta_section_subtitle;
+    }
+}
+
+/**
  * Initialise le chargement du contenu au chargement de la page
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // Charger et appliquer le thème en premier
+    loadAndApplyTheme();
+
+    // Charger les paramètres du site
     loadSiteSettings();
 
     // Charger le carousel uniquement sur la page d'accueil

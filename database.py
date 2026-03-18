@@ -162,19 +162,48 @@ def init_db():
     cursor.execute('SELECT COUNT(*) FROM site_settings')
     if cursor.fetchone()[0] == 0:
         site_settings = [
+            # Informations générales
             ('site_name', 'Les Bains de l\'Opéra'),
             ('site_description', 'Le plus grand hammam traditionnel au cœur de Lyon'),
             ('address', '20 Rue Joseph Serlin, 69001 Lyon'),
             ('phone', ''),
             ('email', 'contact@bainsopera.com'),
+
+            # Horaires
+            ('hours_lundi', 'Fermé'),
+            ('hours_mardi', 'Fermé'),
             ('hours_mercredi', '11h - 21h'),
             ('hours_jeudi', '11h - 19h'),
             ('hours_vendredi', '11h - 22h'),
             ('hours_samedi', '11h - 19h'),
             ('hours_dimanche', 'Fermé'),
-            ('hours_lundi', 'Fermé'),
-            ('hours_mardi', 'Fermé'),
+
+            # Footer
             ('footer_about', 'Les Bains de l\'Opéra est votre destination bien-être au cœur de Lyon. Hammam traditionnel, massages et soins dans un cadre raffiné depuis plus de 25 ans.'),
+
+            # Thème et couleurs
+            ('theme_primary_color', '#D4915E'),
+            ('theme_secondary_color', '#2C2C2C'),
+            ('theme_accent_color', '#C67D4E'),
+            ('theme_background_color', '#F5F5F5'),
+            ('theme_text_color', '#333333'),
+            ('theme_light_bg_color', '#FFF9F5'),
+
+            # Typographie
+            ('theme_font_family', 'Arial, sans-serif'),
+            ('theme_heading_font', 'Georgia, serif'),
+
+            # Textes personnalisables
+            ('home_hero_title', 'LES BAINS DE L\'OPÉRA'),
+            ('home_hero_subtitle', 'Le plus grand hammam traditionnel au cœur de Lyon'),
+            ('home_intro_title', 'Bienvenue aux Bains de l\'Opéra'),
+            ('home_intro_text', 'Depuis 25 ans, Les Bains de l\'Opéra est le plus grand hammam traditionnel en plein cœur de Lyon avec ses 500 m² dédiés au bien-être et à la beauté.'),
+            ('cta_section_title', 'Offrez-vous un moment d\'exception'),
+            ('cta_section_subtitle', 'Réservez dès maintenant votre escale bien-être'),
+
+            # Boutons
+            ('btn_primary_text', 'Réserver'),
+            ('btn_secondary_text', 'En savoir plus'),
         ]
         cursor.executemany('INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?)', site_settings)
         conn.commit()

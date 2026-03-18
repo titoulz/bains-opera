@@ -274,6 +274,11 @@
                     Offres Spéciales
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="design-tab" data-bs-toggle="tab" data-bs-target="#design" type="button" role="tab">
+                    Design & Style
+                </button>
+            </li>
         </ul>
 
         <div class="tab-content" id="contentTabsContent">
@@ -430,6 +435,131 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <!-- Design & Style -->
+            <div class="tab-pane fade" id="design" role="tabpanel">
+                <div id="design-alert"></div>
+
+                <form id="design-form">
+                    <div class="form-section">
+                        <h3>🎨 Couleurs du Site</h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">Personnalisez les couleurs principales de votre site</p>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Couleur Principale</label>
+                                <input type="color" class="form-control form-control-color" name="theme_primary_color" title="Couleur principale">
+                                <small class="text-muted">Utilisée pour les boutons, titres importants</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Couleur Secondaire</label>
+                                <input type="color" class="form-control form-control-color" name="theme_secondary_color" title="Couleur secondaire">
+                                <small class="text-muted">Utilisée pour les en-têtes, footer</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Couleur d'Accentuation</label>
+                                <input type="color" class="form-control form-control-color" name="theme_accent_color" title="Couleur d'accentuation">
+                                <small class="text-muted">Pour les effets au survol</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Fond de Page</label>
+                                <input type="color" class="form-control form-control-color" name="theme_background_color" title="Fond de page">
+                                <small class="text-muted">Couleur de fond principale</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Couleur du Texte</label>
+                                <input type="color" class="form-control form-control-color" name="theme_text_color" title="Couleur du texte">
+                                <small class="text-muted">Couleur par défaut du texte</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Fond Clair</label>
+                                <input type="color" class="form-control form-control-color" name="theme_light_bg_color" title="Fond clair">
+                                <small class="text-muted">Pour les sections claires</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>✍️ Typographie</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Police Principale</label>
+                                <select class="form-select" name="theme_font_family">
+                                    <option value="Arial, sans-serif">Arial (Sans-serif)</option>
+                                    <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                                    <option value="'Segoe UI', Tahoma, Geneva, sans-serif">Segoe UI</option>
+                                    <option value="'Roboto', sans-serif">Roboto</option>
+                                    <option value="'Open Sans', sans-serif">Open Sans</option>
+                                    <option value="'Lato', sans-serif">Lato</option>
+                                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Police des Titres</label>
+                                <select class="form-select" name="theme_heading_font">
+                                    <option value="Georgia, serif">Georgia (Serif)</option>
+                                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                    <option value="'Playfair Display', serif">Playfair Display</option>
+                                    <option value="'Merriweather', serif">Merriweather</option>
+                                    <option value="'Arial', sans-serif">Arial (Sans-serif)</option>
+                                    <option value="'Roboto', sans-serif">Roboto</option>
+                                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>📝 Textes de la Page d'Accueil</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Titre Principal (Hero)</label>
+                                <input type="text" class="form-control" name="home_hero_title" placeholder="Ex: LES BAINS DE L'OPÉRA">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Sous-titre (Hero)</label>
+                                <input type="text" class="form-control" name="home_hero_subtitle" placeholder="Ex: Le plus grand hammam...">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Titre de la Section Introduction</label>
+                            <input type="text" class="form-control" name="home_intro_title" placeholder="Ex: Bienvenue aux Bains de l'Opéra">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Texte d'Introduction</label>
+                            <textarea class="form-control" name="home_intro_text" rows="3" placeholder="Texte de présentation..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Titre Section CTA</label>
+                                <input type="text" class="form-control" name="cta_section_title" placeholder="Ex: Offrez-vous un moment d'exception">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Sous-titre Section CTA</label>
+                                <input type="text" class="form-control" name="cta_section_subtitle" placeholder="Ex: Réservez dès maintenant...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>🔘 Textes des Boutons</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Bouton Principal</label>
+                                <input type="text" class="form-control" name="btn_primary_text" placeholder="Ex: Réserver">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Bouton Secondaire</label>
+                                <input type="text" class="form-control" name="btn_secondary_text" placeholder="Ex: En savoir plus">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer le Design</button>
+                    <button type="button" class="btn btn-secondary ms-2" onclick="previewDesign()">Prévisualiser</button>
+                </form>
             </div>
         </div>
     </div>
@@ -1083,6 +1213,121 @@
                 console.error('Erreur:', error);
                 alert('Erreur lors de la suppression de l\'offre');
             }
+        }
+
+        // ============================================
+        // Design & Style
+        // ============================================
+
+        // Le formulaire design utilise déjà loadSettings() et est géré par le formulaire settings
+        document.getElementById('design-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const designSettings = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch(`${API_URL}/cms/settings`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(designSettings)
+                });
+
+                if (response.ok) {
+                    showAlert('design-alert', 'Design enregistré avec succès ! Rechargez la page d\'accueil pour voir les changements.', 'success');
+                    // Appliquer le thème immédiatement dans l'admin
+                    applyThemePreview(designSettings);
+                } else {
+                    throw new Error('Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('design-alert', 'Erreur lors de la sauvegarde du design', 'danger');
+            }
+        });
+
+        // Charger les paramètres de design au changement d'onglet
+        document.getElementById('design-tab').addEventListener('click', async () => {
+            if (!window.designSettingsLoaded) {
+                await loadDesignSettings();
+                window.designSettingsLoaded = true;
+            }
+        });
+
+        async function loadDesignSettings() {
+            try {
+                const response = await fetch(`${API_URL}/cms/settings`);
+                const settings = await response.json();
+
+                const form = document.getElementById('design-form');
+                Object.keys(settings).forEach(key => {
+                    if (key.startsWith('theme_') || key.startsWith('home_') || key.startsWith('cta_') || key.startsWith('btn_')) {
+                        const input = form.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            input.value = settings[key] || '';
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('design-alert', 'Erreur lors du chargement des paramètres de design', 'danger');
+            }
+        }
+
+        function previewDesign() {
+            const form = document.getElementById('design-form');
+            const formData = new FormData(form);
+            const settings = Object.fromEntries(formData);
+
+            applyThemePreview(settings);
+            showAlert('design-alert', 'Aperçu appliqué ! (Les changements ne sont pas encore sauvegardés)', 'info');
+        }
+
+        function applyThemePreview(settings) {
+            // Créer un style temporaire pour l'aperçu
+            let previewStyle = document.getElementById('theme-preview-style');
+            if (!previewStyle) {
+                previewStyle = document.createElement('style');
+                previewStyle.id = 'theme-preview-style';
+                document.head.appendChild(previewStyle);
+            }
+
+            previewStyle.textContent = `
+                :root {
+                    --primary: ${settings.theme_primary_color || '#D4915E'};
+                    --secondary: ${settings.theme_secondary_color || '#2C2C2C'};
+                    --accent: ${settings.theme_accent_color || '#C67D4E'};
+                    --background: ${settings.theme_background_color || '#F5F5F5'};
+                    --text: ${settings.theme_text_color || '#333333'};
+                    --light-bg: ${settings.theme_light_bg_color || '#FFF9F5'};
+                }
+                body {
+                    background-color: var(--background);
+                    color: var(--text);
+                    font-family: ${settings.theme_font_family || 'Arial, sans-serif'};
+                }
+                h1, h2, h3, h4, h5, h6 {
+                    font-family: ${settings.theme_heading_font || 'Georgia, serif'};
+                }
+                .btn-primary, .btn-logout {
+                    background-color: var(--primary) !important;
+                }
+                .btn-primary:hover, .btn-logout:hover {
+                    background-color: var(--accent) !important;
+                }
+                .admin-header {
+                    background: var(--secondary) !important;
+                }
+                .nav-tabs {
+                    border-bottom-color: var(--primary) !important;
+                }
+                .nav-tabs .nav-link.active {
+                    color: var(--primary) !important;
+                    border-bottom-color: var(--primary) !important;
+                }
+                .table th {
+                    background: var(--primary) !important;
+                }
+            `;
         }
     </script>
 </body>
