@@ -478,6 +478,25 @@
         <div id="calendar"></div>
     </div>
 
+    <!-- Modal pour les détails de réservation -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">Détails de la réservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="reservationModalBody">
+                    <!-- Le contenu sera injecté dynamiquement -->
+                </div>
+                <div class="modal-footer" id="reservationModalFooter">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <!-- Les boutons d'action seront ajoutés dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/fr.global.min.js'></script>
@@ -783,20 +802,79 @@
         // Afficher les détails d'un événement
         function showEventDetails(event) {
             const res = event.extendedProps.reservation;
-            const details = `
-Détails de la réservation #${res.id}
 
-Date: ${formatDate(res.date_reservation)}
-Heure: ${res.heure_reservation}
-Client: ${res.prenom} ${res.nom}
-Email: ${res.email}
-Téléphone: ${res.telephone}
-Formule: ${res.formule}
-Nombre de personnes: ${res.nombre_personnes}
-Statut: ${getStatusLabel(res.statut)}
+            // Mettre à jour le titre de la modal
+            document.getElementById('reservationModalLabel').textContent = `Réservation #${res.id}`;
+
+            // Créer le contenu de la modal
+            const modalBody = document.getElementById('reservationModalBody');
+            modalBody.innerHTML = `
+                <div class="reservation-details">
+                    <div class="mb-3">
+                        <strong>Date:</strong> ${formatDate(res.date_reservation)}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Heure:</strong> ${res.heure_reservation}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Client:</strong> ${res.prenom} ${res.nom}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Email:</strong> ${res.email}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Téléphone:</strong> ${res.telephone}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Formule:</strong> ${res.formule}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Nombre de personnes:</strong> ${res.nombre_personnes}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Statut:</strong> <span class="status-badge status-${res.statut}">${getStatusLabel(res.statut)}</span>
+                    </div>
+                </div>
             `;
 
-            alert(details);
+            // Créer les boutons d'action
+            const modalFooter = document.getElementById('reservationModalFooter');
+            let actionButtons = '';
+
+            if (res.statut !== 'confirmee') {
+                actionButtons += `
+                    <button type="button" class="btn btn-confirm" onclick="updateStatusFromModal(${res.id}, 'confirmee')">
+                        Confirmer
+                    </button>
+                `;
+            }
+
+            if (res.statut !== 'annulee') {
+                actionButtons += `
+                    <button type="button" class="btn btn-cancel" onclick="updateStatusFromModal(${res.id}, 'annulee')">
+                        Annuler
+                    </button>
+                `;
+            }
+
+            modalFooter.innerHTML = `
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                ${actionButtons}
+            `;
+
+            // Afficher la modal
+            const modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+            modal.show();
+        }
+
+        // Mettre à jour le statut depuis la modal
+        async function updateStatusFromModal(id, status) {
+            // Fermer la modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reservationModal'));
+            modal.hide();
+
+            // Mettre à jour le statut
+            await updateStatus(id, status);
         }
     </script>
     <!-- Bootstrap JS -->
