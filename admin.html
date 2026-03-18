@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Réservations | Les Bains de l'Opéra</title>
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
     <style>
         * {
             margin: 0;
@@ -205,6 +207,77 @@
             color: #999;
         }
 
+        /* Onglets Vue Liste / Vue Calendrier */
+        .view-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: white;
+            color: #2C2C2C;
+            border: 2px solid #D4915E;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .tab-btn.active {
+            background: #D4915E;
+            color: white;
+        }
+
+        .view-content {
+            display: none;
+        }
+
+        .view-content.active {
+            display: block;
+        }
+
+        /* Calendrier */
+        #calendar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .fc {
+            max-width: 100%;
+        }
+
+        .fc .fc-button-primary {
+            background-color: #D4915E;
+            border-color: #D4915E;
+        }
+
+        .fc .fc-button-primary:hover {
+            background-color: #c17d4a;
+            border-color: #c17d4a;
+        }
+
+        .fc .fc-button-primary:not(:disabled).fc-button-active {
+            background-color: #2C2C2C;
+            border-color: #2C2C2C;
+        }
+
+        .fc-event {
+            cursor: pointer;
+        }
+
+        .fc-daygrid-event {
+            white-space: normal;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -216,6 +289,14 @@
 
             th, td {
                 padding: 0.5rem;
+            }
+
+            .view-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
             }
         }
     </style>
@@ -272,36 +353,56 @@
 
     <button class="btn btn-refresh" onclick="loadReservations()">Actualiser</button>
 
-    <div class="reservations-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Heure</th>
-                    <th>Client</th>
-                    <th>Formule</th>
-                    <th>Contact</th>
-                    <th>Nb pers.</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="reservations-tbody">
-                <tr>
-                    <td colspan="9" class="no-data">Chargement des réservations...</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Onglets de navigation -->
+    <div class="view-tabs">
+        <button class="tab-btn active" onclick="switchView('list')">Vue Liste</button>
+        <button class="tab-btn" onclick="switchView('calendar')">Vue Calendrier</button>
     </div>
+
+    <!-- Vue Liste -->
+    <div id="list-view" class="view-content active">
+        <div class="reservations-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Client</th>
+                        <th>Formule</th>
+                        <th>Contact</th>
+                        <th>Nb pers.</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reservations-tbody">
+                    <tr>
+                        <td colspan="9" class="no-data">Chargement des réservations...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Vue Calendrier -->
+    <div id="calendar-view" class="view-content">
+        <div id="calendar"></div>
+    </div>
+
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/fr.global.min.js'></script>
 
     <script>
         const API_URL = 'https://bains-opera.onrender.com/api';
         let allReservations = [];
+        let calendar = null;
 
         // Vérifier l'authentification au chargement
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
+            initCalendar();
         });
 
         function checkAuth() {
@@ -343,6 +444,7 @@
                 displayReservations(allReservations);
                 updateStats(allReservations);
                 populateFormuleFilter(allReservations);
+                updateCalendarEvents();
             } catch (error) {
                 console.error('Erreur:', error);
                 document.getElementById('reservations-tbody').innerHTML = `
@@ -498,6 +600,115 @@
                 'annulee': 'Annulée'
             };
             return labels[status] || status;
+        }
+
+        // Initialiser le calendrier
+        function initCalendar() {
+            const calendarEl = document.getElementById('calendar');
+
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                buttonText: {
+                    today: "Aujourd'hui",
+                    month: 'Mois',
+                    week: 'Semaine',
+                    day: 'Jour'
+                },
+                events: [],
+                eventClick: function(info) {
+                    showEventDetails(info.event);
+                },
+                height: 'auto',
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }
+            });
+
+            calendar.render();
+        }
+
+        // Basculer entre les vues
+        function switchView(view) {
+            // Mettre à jour les boutons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Mettre à jour les contenus
+            document.querySelectorAll('.view-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            if (view === 'calendar') {
+                document.getElementById('calendar-view').classList.add('active');
+                if (calendar) {
+                    calendar.render();
+                    updateCalendarEvents();
+                }
+            } else {
+                document.getElementById('list-view').classList.add('active');
+            }
+        }
+
+        // Mettre à jour les événements du calendrier
+        function updateCalendarEvents() {
+            if (!calendar) return;
+
+            const events = allReservations.map(res => {
+                let color;
+                switch(res.statut) {
+                    case 'confirmee':
+                        color = '#28A745';
+                        break;
+                    case 'annulee':
+                        color = '#DC3545';
+                        break;
+                    default:
+                        color = '#FFC107';
+                }
+
+                return {
+                    id: res.id,
+                    title: `${res.prenom} ${res.nom} - ${res.formule}`,
+                    start: `${res.date_reservation}T${res.heure_reservation}`,
+                    backgroundColor: color,
+                    borderColor: color,
+                    extendedProps: {
+                        reservation: res
+                    }
+                };
+            });
+
+            calendar.removeAllEvents();
+            calendar.addEventSource(events);
+        }
+
+        // Afficher les détails d'un événement
+        function showEventDetails(event) {
+            const res = event.extendedProps.reservation;
+            const details = `
+Détails de la réservation #${res.id}
+
+Date: ${formatDate(res.date_reservation)}
+Heure: ${res.heure_reservation}
+Client: ${res.prenom} ${res.nom}
+Email: ${res.email}
+Téléphone: ${res.telephone}
+Formule: ${res.formule}
+Nombre de personnes: ${res.nombre_personnes}
+Statut: ${getStatusLabel(res.statut)}
+            `;
+
+            alert(details);
         }
     </script>
     <!-- Bootstrap JS -->
